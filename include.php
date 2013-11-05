@@ -1,10 +1,7 @@
 <?php 
-require_once('./Message/WXAbstractMessage.php');
-require_once('./Message/WXAbstractPassiveMessage.php');
-require_once('./Message/WXTextPassiveMessage.php');
-require_once('./Message/WXImagePassiveMessage.php');
-require_once('./Message/WXVoicePassiveMessage.php');
-require_once('./Message/WXVideoPassiveMessage.php');
-require_once('./Message/WXMusicPassiveMessage.php');
+require_once('./Message/AbstractMessage.php');
+require_once('./Message/AbstractCommonMessage.php');
+require_once('./Message/TextCommonMessage.php');
+require_once('./Message/ScanQREventMessage.php');
 require_once('./Message/WXMessageManager.php');
 ?>

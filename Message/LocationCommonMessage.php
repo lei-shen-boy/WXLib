@@ -1,5 +1,12 @@
 <?php
-class WXLocationPassiveMessage extends WXAbstractPassiveMessage
+/**
+ * 接收地理位置消息
+ * @author Gavin
+ *
+ */
+require_once 'AbstractCommonMessage.php';
+
+class LocationCommonMessage extends AbstractCommonMessage
 {
     /**
      * 地理位置维度
@@ -24,11 +31,6 @@ class WXLocationPassiveMessage extends WXAbstractPassiveMessage
      * @var int
      */
     protected $label;
-    
-    public function __construct($message = null)
-    {
-        $this->init(parent::__construct($message));
-    }
     
     public function setLocationX($locationX)
     {

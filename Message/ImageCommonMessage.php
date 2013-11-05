@@ -1,14 +1,14 @@
 <?php
-class WXImagePassiveMessage extends WXAbstractPassiveMessage
+/**
+ * 接收图片消息|回复图片消息
+ */
+require_once 'AbstractCommonMessage.php';
+
+class ImageCommonMessage extends AbstractCommonMessage
 {
     protected $picUrl;
     
     protected $mediaId;
-    
-    public function __construct($message = null)
-    {
-        $this->init(parent::__construct($message));
-    }
     
     public function setPicUrl($picUrl)
     {

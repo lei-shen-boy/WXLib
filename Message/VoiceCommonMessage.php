@@ -1,14 +1,19 @@
 <?php
-class WXVoicePassiveMessage extends WXAbstractPassiveMessage
+/**
+ * 接收语音消息|回复语音消息
+ */
+require_once 'AbstractCommonMessage.php';
+
+class VoiceCommonMessage extends AbstractCommonMessage
 {
     protected $voiceFormat;
     
     protected $mediaId;
     
-    public function __construct($message = null)
-    {
-        $this->init(parent::__construct($message));
-    }
+    /**
+     * 开通语音识别功能，用户每次发送语音给公众号时，微信会在推送的语音消息XML数据包中，增加一个Recongnition字段
+     */
+    protected $recognition;
     
     public function setVoiceFormat($voiceFormat)
     {
@@ -32,11 +37,22 @@ class WXVoicePassiveMessage extends WXAbstractPassiveMessage
         return $this->mediaId;
     }
     
+    public function setRecognition($recognition)
+    {
+        $this->recognition = $recognition;
+    }
+    
+    public function getRecognition()
+    {
+        return $this->recognition;
+    }
+    
     public function init($message)
     {
         parent::init($message);
         $this->setVoiceFormat($message['Format'] ? $message['Format'] : '');
         $this->setMediaId($message['MediaId'] ? $message['MediaId'] : '');
+        $this->setRecognition($message['Recognition'] ? $message['Recognition'] : '');
     }
     
     public function toString()

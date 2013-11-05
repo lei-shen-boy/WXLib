@@ -1,5 +1,10 @@
 <?php
-class WXMusicPassiveMessage extends WXAbstractPassiveMessage
+/**
+ * 回复音乐消息
+ */
+require_once 'AbstractCommonMessage.php';
+
+class MusicCommonMessage extends AbstractCommonMessage
 {
     protected $title;
     
@@ -10,11 +15,6 @@ class WXMusicPassiveMessage extends WXAbstractPassiveMessage
     protected $HQMusicUrl;
     
     protected $thumbMediaId;
-    
-    public function __construct($message = null)
-    {
-        $this->init(parent::__construct($message));
-    }
     
     public function setTitle($title)
     {
@@ -75,8 +75,11 @@ class WXMusicPassiveMessage extends WXAbstractPassiveMessage
     public function init($message)
     {
         parent::init($message);
-        $this->setVoiceFormat($message['Format'] ? $message['Format'] : '');
-        $this->setMediaId($message['MediaId'] ? $message['MediaId'] : '');
+        $this->setTitle($message['Title'] ? $message['Title'] : '');
+        $this->setDescription($message['Description'] ? $message['Description'] : '');
+        $this->setMusicUrl($message['MusicURL'] ? $message['MusicURL'] : '');
+        $this->setHQMusicUrl($message['HQMusicUrl'] ? $message['HQMusicUrl'] : '');
+        $this->setThumbMediaId($message['ThumbMediaId'] ? $message['ThumbMediaId'] : '');
     }
     
     public function toString()

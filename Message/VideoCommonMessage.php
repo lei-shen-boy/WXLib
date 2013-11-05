@@ -1,14 +1,14 @@
 <?php
-class WXVideoPassiveMessage extends WXAbstractPassiveMessage
+/**
+ * 接收视频消息|回复视频消息
+ */
+require_once 'AbstractCommonMessage.php';
+
+class VideoCommonMessage extends AbstractCommonMessage
 {
     protected $mediaId;
     
     protected $thumbMediaId;
-    
-    public function __construct($message = null)
-    {
-        $this->init(parent::__construct($message));
-    }
     
     public function setThumbMediaId($thumbMediaId)
     {
@@ -35,7 +35,7 @@ class WXVideoPassiveMessage extends WXAbstractPassiveMessage
     public function init($message)
     {
         parent::init($message);
-        $this->setVoiceFormat($message['ThumbMediaId'] ? $message['ThumbMediaId'] : '');
+        $this->setThumbMediaId($message['ThumbMediaId'] ? $message['ThumbMediaId'] : '');
         $this->setMediaId($message['MediaId'] ? $message['MediaId'] : '');
     }
     

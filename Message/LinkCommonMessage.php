@@ -1,14 +1,25 @@
 <?php
-class WXEventPassiveMessage extends WXAbstractPassiveMessage
+/**
+ * 接收链接消息
+ */
+require_once 'AbstractCommonMessage.php';
+
+class LinkCommonMessage extends AbstractCommonMessage
 {
-    const SUBSCRIBE = 'subscribe';
-    const UNSUBSCRIBE = 'unsubscribe';
-    
     /**
-     * 事件类型，subscribe(订阅)、unsubscribe(取消订阅)
      * @var string
      */
-    protected $event;
+    protected $title;
+    
+    /**
+     * @var string
+     */
+    protected $description;
+    
+    /**
+     * @var string
+     */
+    protected $url;
     
     
     public function __construct($message = null)

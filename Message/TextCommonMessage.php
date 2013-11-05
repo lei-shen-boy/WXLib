@@ -1,12 +1,12 @@
 <?php
-class WXTextPassiveMessage extends WXAbstractPassiveMessage
+/**
+ * 接收文本消息|回复文本消息
+ */
+require_once 'AbstractCommonMessage.php';
+
+class TextCommonMessage extends AbstractCommonMessage
 {
     protected $content;
-    
-    public function __construct($message = null)
-    {
-        $this->init(parent::__construct($message));
-    }
     
     public function setContent($content)
     {
