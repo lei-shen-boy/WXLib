@@ -75,7 +75,19 @@ class Basic
             throw new Exception('get access token faild, https request status is ' . $response->getStatus());
         }
     }
-
+    
+    /**
+     * 上传的多媒体文件有格式和大小限制，如下：
+图片（image）: 256K，支持JPG格式
+语音（voice）：256K，播放长度不超过60s，支持AMR与MP3格式
+视频（video）：2MB，支持MP4格式
+缩略图（thumb）：64KB，支持JPG格式
+媒体文件在后台保存时间为3天，即3天后media_id失效。
+     * @param unknown $type
+     * @param unknown $file
+     * @throws Exception
+     * @return mixed
+     */
     static function uploadMedia($type, $file)
     {
         $request = self::getRequest(self::getUploadMediaAPI(), HTTP_Request2::METHOD_POST);
@@ -95,7 +107,19 @@ class Basic
         }
     }
     
-    static function getMedia($mediaId)
+    static function getMediaUrl($mediaId)
+    {
+        // http://file.api.weixin.qq.com/cgi-bin/media/get?access_token=ACCESS_TOKEN&media_id=MEDIA_ID
+        $request = self::getRequest('http://file.api.weixin.qq.com/cgi-bin/media/get');
+        $url = $request->getUrl();
+        $url->setQueryVariables(array(
+                'access_token' => self::WX_ACCESS_TOKEN,
+                'media_id' => $mediaId,
+        ));
+        return $url->getURL();
+    }
+    
+    static function downloadMedia($mediaId, $des)
     {
         // http://file.api.weixin.qq.com/cgi-bin/media/get?access_token=ACCESS_TOKEN&media_id=MEDIA_ID
         $request = self::getRequest('http://file.api.weixin.qq.com/cgi-bin/media/get');
@@ -105,8 +129,8 @@ class Basic
                 'media_id' => $mediaId,
         ));
         $url->getURL();
-        file_put_contents('Data/getted.jpg', file_get_contents($url->getURL()));
-        
+        file_put_contents($des, file_get_contents($url->getURL()));
+    
         return 0;
     }
     
