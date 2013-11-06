@@ -1,7 +1,6 @@
 <?php
 /**
  * 接收到的普通消息|发送的被动响应消息
- * @author Gavin
  *
  */
 require_once 'AbstractMessage.php';

@@ -3,8 +3,27 @@ require_once 'Basic/Basic.php';
 require_once 'Message/TextCommonMessage.php';
 require_once 'Message/NewsCommonMessage.php';
 require_once 'Message/Article.php';
+require_once 'Basic/AccessTokenRequest.php';
+require_once 'Basic/MediaUploadRequest.php';
+require_once 'Basic/MediaDownloadRequest.php';
 
 try {
+    $mediaId = '8oochr_tuLm6rx_n-gsMKejTfwyHNjY704vrRJRvDBs9dpbLdb-1XBlei7Bm83Xo';
+    
+    $media = new MediaDownloadRequest($mediaId);
+    $res  = $media->download('data/test.jpg');
+    var_dump($res);
+    exit;
+    
+    
+    
+    
+    
+    
+    $token = new AccessTokenRequest();
+    var_dump($token->send());
+    exit;
+    
     $news = new NewsCommonMessage(array(
             'ToUserName' => 'ToUserName1',
             'FromUserName' => 'FromUserName1',
