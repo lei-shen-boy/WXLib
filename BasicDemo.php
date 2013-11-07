@@ -6,12 +6,73 @@ require_once 'Basic/AccessTokenRequest.php';
 require_once 'Basic/MediaUploadRequest.php';
 require_once 'Basic/MediaDownloadRequest.php';
 require_once 'Message/TextCSMessage.php';
+require_once 'Message/ImageCSMessage.php';
+require_once 'Message/VoiceCSMessage.php';
+require_once 'Message/VideoCSMessage.php';
+require_once 'Message/MusicCSMessage.php';
+require_once 'Message/NewsCSMessage.php';
 
 try {
+    $m = new NewsCSMessage();
+    $a = new Article();
+    $a->setTitle('title1');
+    $a->setDescription('des1');
+    $a->setUrl('url1');
+    $a->setPicUrl('picurl');
+    $m->addArticle($a);
+    $m->addArticle('<xml><Title><![CDATA[title1]]></Title> 
+<Description><![CDATA[description1]]></Description>
+<PicUrl><![CDATA[picurl]]></PicUrl>
+<Url><![CDATA[url]]></Url></xml> ');
+    var_dump($m->toString());
+    var_dump($m->send());
+    exit;
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    $m = new MusicCSMessage();
+    $m->setToUser('abc');
+    $m->setTitle('title1');
+    $m->setDescription('description1');
+    $m->setMusicUrl('musicurl1');
+    $m->setHQMusicUrl('hqmusicurl');
+    $m->setThumbMediaId('thumbmeidid');
+    var_dump($m->toString());
+    var_dump($m->send());
+    exit;
+    
+    $m = new VideoCSMessage();
+    $m->setToUser('abc');
+    $m->setMediaId('12345');
+    $m->setThumbMediaId('dfas');
+    var_dump($m->toString());
+    var_dump($m->send());
+    exit;
+    /*
+    $m = new VoiceCSMessage();
+    $m->setToUser('abc');
+    $m->setMediaId('12345');
+    var_dump($m->toString());
+    var_dump($m->send());
+    */
+    $m = new ImageCSMessage();
+    $m->setToUser('abc');
+    $m->setMediaId('12345');
+    var_dump($m->toString());
+    var_dump($m->send());
+    exit;
     $tcsm = new TextCSMessage();
     $tcsm->setToUser('OPENID');
     $tcsm->setContent('Hello World');
-    var_dump($tcsm->send());
+    var_dump($tcsm->toString());
     exit;    
     
     $mediaId = '8oochr_tuLm6rx_n-gsMKejTfwyHNjY704vrRJRvDBs9dpbLdb-1XBlei7Bm83Xo';

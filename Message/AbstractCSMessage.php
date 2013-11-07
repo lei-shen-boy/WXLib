@@ -25,20 +25,17 @@ abstract class AbstractCSMessage extends RawBodyRequest implements AbstractCSMes
     
     protected $options = array();
     
-    public function __construct($message, $accessToken = null)
+    public function __construct($message = null, $accessToken = null)
     {
-        $this->initFieldNames();
-        parent::__construct($accessToken);
-        if (is_array($message)) {
-            $this->init($message);
-        } elseif ($message !== null) {
+        if (isset($message) && !is_array($message)) {
             throw new Exception(sprintf(
                     'Expecting a string or array, received "%s"',
                     (is_object($message) ? get_class($message) : gettype($message))
             ));
         }
-    
-        return $message;
+        $this->initFieldNames();
+        $this->init($message);
+        parent::__construct($accessToken);
     }
     
     public function initFieldNames()
@@ -52,9 +49,23 @@ abstract class AbstractCSMessage extends RawBodyRequest implements AbstractCSMes
         $this->options[$field] = $value;
     }
     
+    public function getOption($field)
+    {
+        return $this->options[$field];
+    }
+    
     public function getOptions()
     {
         return $this->options;
+    }
+    
+    abstract public function setDetailOptions();
+    
+    public function buildOptions()
+    {
+        $this->setOption(self::TO_USER_FIELD_NAME, $this->getToUser());
+        $this->setOption(self::MESSAGE_TYPE_FIELD_NAME, $this->getMessageType());
+        $this->setDetailOptions();
     }
     
     public function checkFieldName($field)
@@ -67,7 +78,7 @@ abstract class AbstractCSMessage extends RawBodyRequest implements AbstractCSMes
     public function setToUser($user)
     {
         $this->toUser = $user;
-        $this->setOption(self::TO_USER_FIELD_NAME, $user);
+        
     
         return $this;
     }
@@ -80,7 +91,6 @@ abstract class AbstractCSMessage extends RawBodyRequest implements AbstractCSMes
     public function setMessageType($messageType)
     {
         $this->messageType = $messageType;
-        $this->setOption(self::MESSAGE_TYPE_FIELD_NAME, $messageType);
     
         return $this;
     }
@@ -96,12 +106,13 @@ abstract class AbstractCSMessage extends RawBodyRequest implements AbstractCSMes
      */
     public function init($message)
     {
-        $this->setToUser($message[self::TO_USER_FIELD_NAME] ? $message[self::TO_USER_FIELD_NAME] : '');
+        $this->setToUser(isset($message[self::TO_USER_FIELD_NAME]) ? $message[self::TO_USER_FIELD_NAME] : '');
     }
     
     public function toString()
     {
-        return $this->encode($this->options);
+        $this->buildOptions();
+        return $this->encode($this->getOptions());
     }
     
     public function encode($data)

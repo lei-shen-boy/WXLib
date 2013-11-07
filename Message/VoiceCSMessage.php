@@ -1,14 +1,14 @@
 <?php
 /**
- * 发送语音客服消息
+ * 发送图片客服消息
  * @author huichaozh
  *
  */
 require_once 'AbstractMediaCSMessage.php';
 
-class ImageCSMessage extends AbstractMediaCSMessage
+class VoiceCSMessage extends AbstractMediaCSMessage
 {
-    const MESSAGE_TYPE = 'image';
+    const MESSAGE_TYPE = 'voice';
     
     public function __construct($message = null, $accessToken = null)
     {

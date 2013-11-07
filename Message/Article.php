@@ -4,6 +4,11 @@
  */
 class Article
 {
+    const TITLE_FIELD_NAME = 'title';
+    const DESCRIPTION_FIELD_NAME = 'description';
+    const URL_FIELD_NAME = 'url';
+    const PIC_URL_FIELD_NAME = 'picurl';
+    
     /**
      * 图文消息标题
      */
@@ -50,6 +55,16 @@ class Article
 <PicUrl><![CDATA[%s]]></PicUrl>
 <Url><![CDATA[%s]]></Url>';
         return sprintf($xmlTpl, $this->getTitle(), $this->getDescription(), $this->getPicUrl(), $this->getUrl());
+    }
+    
+    public function toArray()
+    {
+        return array(
+                self::TITLE_FIELD_NAME => $this->getTitle(),
+                self::DESCRIPTION_FIELD_NAME => $this->getDescription(),
+                self::URL_FIELD_NAME => $this->getUrl(),
+                self::PIC_URL_FIELD_NAME => $this->getPicUrl()
+        );
     }
     
     public function setTitle($title)
