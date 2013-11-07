@@ -1,13 +1,19 @@
 <?php 
-require_once 'Basic/Basic.php';
 require_once 'Message/TextCommonMessage.php';
 require_once 'Message/NewsCommonMessage.php';
 require_once 'Message/Article.php';
 require_once 'Basic/AccessTokenRequest.php';
 require_once 'Basic/MediaUploadRequest.php';
 require_once 'Basic/MediaDownloadRequest.php';
+require_once 'Message/TextCSMessage.php';
 
 try {
+    $tcsm = new TextCSMessage();
+    $tcsm->setToUser('OPENID');
+    $tcsm->setContent('Hello World');
+    var_dump($tcsm->send());
+    exit;    
+    
     $mediaId = '8oochr_tuLm6rx_n-gsMKejTfwyHNjY704vrRJRvDBs9dpbLdb-1XBlei7Bm83Xo';
     
     $media = new MediaDownloadRequest($mediaId);

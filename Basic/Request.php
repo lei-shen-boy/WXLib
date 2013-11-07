@@ -1,11 +1,10 @@
 <?php
-require_once 'AbstractRequest.php';
-require_once 'AccessToken.php';
 /**
  * @todo $apiOptions should be configed from a config center
  *
  */
-class MediaRequest extends AbstractRequest
+require_once 'AbstractRequest.php';
+class Request extends AbstractRequest
 {
     protected $accessToken;
     

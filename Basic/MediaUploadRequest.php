@@ -1,5 +1,5 @@
 <?php
-require_once 'MediaRequest.php';
+require_once 'Request.php';
 /**
  * 上传多媒体文件
  * 上传的多媒体文件有格式和大小限制，如下：
@@ -8,7 +8,7 @@ require_once 'MediaRequest.php';
 视频（video）：2MB，支持MP4格式
 缩略图（thumb）：64KB，支持JPG格式
  */
-class MediaUploadRequest extends MediaRequest
+class MediaUploadRequest extends Request
 {
     /**
      * Internal options array

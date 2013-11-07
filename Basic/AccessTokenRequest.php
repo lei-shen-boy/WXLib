@@ -1,9 +1,9 @@
 <?php
-require_once 'AbstractRequest.php';
 /**
  * @todo $apiOptions should be configed from a config center
  *
  */
+require_once 'AbstractRequest.php';
 class AccessTokenRequest extends AbstractRequest
 {
     /**

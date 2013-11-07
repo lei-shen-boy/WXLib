@@ -1,5 +1,7 @@
 <?php 
 require_once 'RequestInterface.php';
+require_once 'HTTP/Request2.php';
+
 abstract class AbstractRequest implements RequestInterface
 {
     protected $apiOptions = array(

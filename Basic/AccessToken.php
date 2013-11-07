@@ -59,8 +59,8 @@ class AccessToken
     {
         //@todo 从本地获取accessToken
         $localToken = array(
-                'accessToken' => 'abc',
-                'updatedTime' => '12345678'
+                'accessToken' => 'U3QwX-NAxOgtMi6wehc0zqFEJcHf04EoUKkzrCGYYeGlj6c--HbJW-JU8nGKaMAQ8VNZLTlJxbrPk4hWwPukWK7q2V4GTkwlZw4In2iuJMr1aXzltc6hmRINi3YEtEljRa2w8tbTJCmh2iAnNoldSg',
+                'updatedTime' => time()
         );
         $this->setAccessToken($localToken['accessToken']);
         $this->setUpdatedTime($localToken['updatedTime']);
@@ -73,14 +73,11 @@ class AccessToken
     
     public function get()
     {
-        /*
-        $this->getLocal();
-        if ($this->getUpdatedTime() + self::EXPIRES_IN > time()) {
+        $this->getFromLocal();
+        if ($this->getUpdatedTime() + self::EXPIRES_IN < time()) {
             $this->getFromRequest();
             $this->updateLocal();
         }
-        */
-        $this->getFromRequest();
         
         return $this->getAccessToken();
     }
