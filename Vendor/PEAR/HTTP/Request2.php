@@ -1,5 +1,4 @@
 <?php
-namespace Vendor\PEAR\HTTP;
 /**
  * Class representing a HTTP request message
  *
@@ -45,12 +44,12 @@ namespace Vendor\PEAR\HTTP;
 /**
  * A class representing an URL as per RFC 3986.
  */
-require_once 'Vendor/PEAR/Net/URL2.php';
+require_once 'Net/URL2.php';
 
 /**
  * Exception class for HTTP_Request2 package
  */
-require_once 'Vendor/PEAR/HTTP/Request2/Exception.php';
+require_once 'HTTP/Request2/Exception.php';
 
 /**
  * Class representing a HTTP request message
