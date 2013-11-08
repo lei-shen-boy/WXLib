@@ -1,19 +1,8 @@
 <?php 
-require_once 'Message/TextCommonMessage.php';
-require_once 'Message/NewsCommonMessage.php';
-require_once 'Message/Article.php';
-require_once 'Basic/AccessTokenRequest.php';
-require_once 'Basic/MediaUploadRequest.php';
-require_once 'Basic/MediaDownloadRequest.php';
-require_once 'Message/TextCSMessage.php';
-require_once 'Message/ImageCSMessage.php';
-require_once 'Message/VoiceCSMessage.php';
-require_once 'Message/VideoCSMessage.php';
-require_once 'Message/MusicCSMessage.php';
-require_once 'Message/NewsCSMessage.php';
+require_once 'autoLoad.php';
 
 try {
-    $m = new NewsCSMessage();
+    $m = new WXLib\Message\CustomerService\NewsCSMessage();
     $a = new Article();
     $a->setTitle('title1');
     $a->setDescription('des1');

@@ -1,5 +1,5 @@
 <?php 
-require_once 'HTTP/Request2.php';
+require_once 'Vendor/PEAR/HTTP/Request2.php';
 
 try {
 	// Explicitly set request method and use_brackets
