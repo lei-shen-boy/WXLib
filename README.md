@@ -32,4 +32,4 @@ WXLib/Vendor/ClassLoader.php, 控制的文件自动加载
 
 Demo
 -----
-<a href="https://github.com/octans/WXLib/blob/master/Demo.php">WXLib/Demo.php</a>,演示接收微信服务器的通知消息并发送响应消息
+<a href="https://github.com/octans/WXLib/blob/master/demo.php">WXLib/Demo.php</a>,演示接收微信服务器的通知消息并发送响应消息
