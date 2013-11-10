@@ -31,6 +31,8 @@ $xml = '<xml><ToUserName><![CDATA[toUser]]></ToUserName>
 $m = new Message($xml);
 echo $m->toString();
 
+
+
 $xml = '<xml>
 <ToUserName><![CDATA[toUser]]></ToUserName>
 <FromUserName><![CDATA[FromUser]]></FromUserName>
@@ -76,4 +78,22 @@ $xml = '<xml>
 </xml>';
 $m = new Message($xml);
 echo $m->toString();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ?>
