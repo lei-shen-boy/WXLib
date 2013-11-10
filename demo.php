@@ -4,10 +4,10 @@
  */
 require_once 'Vendor/autoload.php';
 use WXLib\Message\Message;
+use WXLib\Constants;
 
-/*
- * 模拟收到微信平台的消息
- */
+
+// 模拟收到微信平台的消息
 $message = '<xml>
  <ToUserName><![CDATA[toUser]]></ToUserName>
  <FromUserName><![CDATA[fromUser]]></FromUserName>
@@ -17,41 +17,39 @@ $message = '<xml>
  <MsgId>1234567890123456</MsgId>
  </xml>';
 
-/*
- * 使用接口消息初始化WXLib\Message\Message实例
- */
+// 使用接口消息初始化WXLib\Message\Message实例
 $received = new Message($message);
 
-/*
- * 应用程序获取消息的每部分信息，并且处理自己的逻辑
- */
- $toUser = $received->getToUser();
- $fromUser = $received->getFromUser();
- $createTime = $received->getCreateTime();
- $msgType = $received->getMessageType();
- $content = $received->getContent();
- $msgId = $received->getMessageId();
- echo $received->toString();
- // @todo 应用程序自己的逻辑
+// 如果只想接受某类型的消息，比如只处理文本消息
+if ($received->isText()) {
+    // @todo
+}
 
-/*
- * 设置要响应的消息
- */
-// 将消息体作为数组实例化一个Message实例
-$response = new Message(array(
-        'ToUserName' => $fromUser,
-        'FromUserName' => $toUser,
-        'CreateTime' => time(),
-        'MsgType' => Message::TEXT_MESSAGE_TYPE_NAME,
-        'Content' => 'my response',
-));
-echo $response->toString();
- 
-// 或者使用Message提供的方法来设置消息体，推荐使用这种方式
+// 获取消息的每个字段的值
+$toUser = $received->getToUser();
+$fromUser = $received->getFromUser();
+$createTime = $received->getCreateTime();
+$msgType = $received->getMessageType();
+$content = $received->getContent();
+$msgId = $received->getMessageId();
+
+// 使用Message提供的set方法来设置设置要响应的消息，推荐使用这种方式
 $response = new Message();
 $response->setToUser($toUser)
-         ->setFromUser($fromUser)
-         ->setToText() // 相当于->setMessageType(Message::TEXT_MESSAGE_TYPE_NAME)
-         ->setContent('my response');
+->setFromUser($fromUser)
+->setToText() // 相当于->setMessageType(Message::TEXT_MESSAGE_TYPE_NAME)
+->setContent('my response');
+
+// 输出xml格式的文本
+echo $response->toString();
+
+// 或者在实例化Message时就设置好消息信息
+$response = new Message(array(
+        Constants::FROM_USER_NAME_FIELD => $fromUser,
+        Constants::TO_USER_NAME_FIELD => $toUser,
+        Constants::CREATE_TIME_FIELD => time(),
+        Constants::TEXT_CONTENT_FIELD => Message::TEXT_MESSAGE_TYPE_NAME,
+        Constants::CONTENT_FIELD => 'my response',
+));
 echo $response->toString();
 ?>
