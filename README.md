@@ -9,8 +9,8 @@ WXLib
 
 <img src="http://fucklife.net/wp/wp-content/uploads/2013/11/3.jpg" />
 <pre><code>// 模拟收到微信平台的消息
-$message = '<xml>
-abc </xml>';
+$message = '\<xml\>
+abc \</xml\>';
 
 // 使用接口消息初始化WXLib\Message\Message实例
 $received = new Message($message);
