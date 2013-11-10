@@ -9,7 +9,6 @@ WXLib
 
 <img src="http://fucklife.net/wp/wp-content/uploads/2013/11/3.jpg" />
 <pre><code>
-\<\?php
 /**
  * 演示接收微信服务器的通知消息并发送响应消息
  */
