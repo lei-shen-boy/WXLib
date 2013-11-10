@@ -6,16 +6,11 @@ WXLib
 本开发包特点
 -----
 开发者不需要记微信接口里的任何字段，也不用担心某天某个接口的字段值发生改变后的代码维护，因为在本adk里都进行了封装，接口方法的命名规则严格遵从了微信开放平台的接口文档，开发者在使用此sdk时，如果你的编辑器(zend studio, eclipse)支持代码提示功能,那么你就能快速定位到要你需要使用的接口方法！
+
 <img src="http://fucklife.net/wp/wp-content/uploads/2013/11/3.jpg" />
 <pre><code>// 模拟收到微信平台的消息
 $message = '<xml>
- <ToUserName><\!\[CDATA\[toUser\]\]></ToUserName>
- <FromUserName><\!\[CDATA\[fromUser\]\]></FromUserName>
- <CreateTime>1348831860</CreateTime>
- <MsgType><\!\[CDATA\[text\]\]></MsgType>
- <Content><\!\[CDATA\[this is a test\]\]></Content>
- <MsgId>1234567890123456</MsgId>
- </xml>';
+abc </xml>';
 
 // 使用接口消息初始化WXLib\Message\Message实例
 $received = new Message($message);
