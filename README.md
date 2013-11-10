@@ -9,6 +9,19 @@ WXLib
 
 PHP5.3及以上
 
+Demo
+-----
+<a href="https://github.com/octans/WXLib/blob/master/demo.php">WXLib/Demo.php</a>,演示接收微信服务器的通知消息并发送响应消息
+
+
+
+开发包WXlib/vendor/WXLib目录结构：
+
+------------WXLib/Basic, 对获取access_token, 媒体上传和下载进行了封装
+
+------------WXLIb/Message, 对接收/回复消息进行了封装,对发送客服消息进行了封装
+
+------------WXLIb/Message/Message.php, 公共接口类，所有和接收消息/响应消息有关的接口方法都封装在了里面
 
 项目结构
 -----
@@ -21,15 +34,3 @@ WXLib/Vendor/PEAR, 是PEAR中HTTP_Request2的实现代码，整个WXLib开发包
 WXLib/Vendor/autoload.php, 开发者在这里设置WXLib在具体项目中使用时的路径
 
 WXLib/Vendor/ClassLoader.php, 控制的文件自动加载
-
-下面介绍开发包WXlib/vendor/WXLib里的目录结构：
-
-------------WXLib/Basic, 对获取access_token, 媒体上传和下载进行了封装
-
-------------WXLIb/Message, 对接收/回复消息进行了封装,对发送客服消息进行了封装
-
-------------WXLIb/Message/Message.php, 公共接口类，所有和接收消息/响应消息有关的接口方法都封装在了里面
-
-Demo
------
-<a href="https://github.com/octans/WXLib/blob/master/demo.php">WXLib/Demo.php</a>,演示接收微信服务器的通知消息并发送响应消息
