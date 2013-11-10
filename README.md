@@ -17,7 +17,7 @@ Demo
 
 公共接口类WXLIb/Message/Message.php：
 
-------------WXLIb/Message/Message.php, 公共接口类，所有和接收消息/响应消息有关的接口方法都封装在了里面,可以方便的使用
+-----WXLIb/Message/Message.php, 公共接口类，所有和接收消息/响应消息有关的接口方法都封装在了里面,可以方便的使用
 
 项目结构
 -----
