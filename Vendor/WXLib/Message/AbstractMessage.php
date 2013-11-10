@@ -1,6 +1,7 @@
 <?php
 namespace WXLib\Message;
 
+use WXLib\Constants;
 abstract class AbstractMessage
 {
     protected $toUser;
@@ -102,15 +103,115 @@ abstract class AbstractMessage
      */
     public function init($message)
     {
-        $this->setToUser($message['ToUserName'] ? $message['ToUserName'] : '');
-        $this->setMessageType($message['MsgType'] ? $message['MsgType'] : '');
-        $this->setFromUser($message['FromUserName'] ? $message['FromUserName'] : '');
-        $this->setCreateTime($message['CreateTime'] ? $message['CreateTime'] : time());
+        $this->setToUser(isset($message[Constants::TO_USER_NAME_FIELD]) ? $message[Constants::TO_USER_NAME_FIELD] : '');
+        $this->setMessageType(isset($message[Constants::MESSAGE_TYPE_FIELD]) ? $message[Constants::MESSAGE_TYPE_FIELD] : '');
+        $this->setFromUser(isset($message[Constants::FROM_USER_NAME_FIELD]) ? $message[Constants::FROM_USER_NAME_FIELD] : '');
+        $this->setCreateTime(isset($message[Constants::CREATE_TIME_FIELD]) ? $message[Constants::CREATE_TIME_FIELD] : time());
     }
     
     public function parseString($message)
     {
         return (array)simplexml_load_string($message, 'SimpleXMLElement', LIBXML_NOCDATA);
+    }
+    
+    /**
+     * 是否是文本消息
+     * @return boolean
+     */
+    public function isText()
+    {
+        return $this->getMessageType() == Constants::TEXT_MESSAGE_TYPE_NAME ? true : false;
+    } 
+    
+    /**
+     * 是否是图片消息
+     * @return boolean
+     */
+    public function isImage()
+    {
+        return $this->getMessageType() == Constants::IMAGE_MESSAGE_TYPE_NAME ? true : false;
+    }
+    
+    /**
+     * 是否是语音消息
+     * @return boolean
+     */
+    public function isVoice()
+    {
+        return $this->getMessageType() == Constants::VOICE_MESSAGGE_TYPE_NAME ? true : false;
+    }
+    
+    /**
+     * 是否是视频消息
+     * @return boolean
+     */
+    public function isVideo()
+    {
+        return $this->getMessageType() == Constants::VIDEO_MESSAGGE_TYPE_NAME ? true : false;
+    }
+    
+    /**
+     * 是否是事件消息
+     * @return boolean
+     */
+    public function isEvent()
+    {
+        return $this->getMessageType() == Constants::EVENT_MESSAGGE_TYPE_NAME ? true : false;
+    }
+    
+    /**
+     * 设置为文本消息
+     * @return boolean
+     */
+    public function setToText()
+    {
+        $this->messageType = Constants::TEXT_MESSAGE_TYPE_NAME;
+        
+        return $this;
+    }
+    
+    /**
+     * 设置为图片消息
+     * @return boolean
+     */
+    public function setToImage()
+    {
+        $this->messageType = Constants::IMAGE_MESSAGE_TYPE_NAME;
+        
+        return $this;
+    }
+    
+    /**
+     * 设置为语音消息
+     * @return boolean
+     */
+    public function setToVoice()
+    {
+        $this->messageType = Constants::VOICE_MESSAGGE_TYPE_NAME;
+        
+        return $this;
+    }
+    
+    /**
+     * 设置为视频消息
+     * @return boolean
+     */
+    public function setToVideo()
+    {
+        $this->messageType = Constants::VIDEO_MESSAGGE_TYPE_NAME;
+        
+        return $this;
+    }
+    
+    /**
+     * 设置为事件消息
+     * @return boolean
+     */
+    public function setToEvent()
+    {
+        $this->messageType = Constants::EVENT_MESSAGGE_TYPE_NAME;
+        
+        return $this;
     }
 }
 ?>

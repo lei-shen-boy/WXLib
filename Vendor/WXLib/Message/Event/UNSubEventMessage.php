@@ -9,7 +9,16 @@ class UNSubEventMessage extends AbstractEventMessage
     public function init($message)
     {
         parent::init($message);
-        $this->setEventUNSub();
+        $this->setEventToUNSub();
+    }
+    
+    public function toString()
+    {
+        $xmlStringTpl = parent::toString();
+        return sprintf($xmlStringTpl,
+                ""
+        );
+    
     }
 }
 ?>

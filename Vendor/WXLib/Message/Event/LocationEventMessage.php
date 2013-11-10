@@ -4,6 +4,7 @@
  *
  */
 namespace WXLib\Message\Event;
+use WXLib\Constants;
 class LocationEventMessage extends AbstractEventMessage
 {
     /**
@@ -61,10 +62,21 @@ class LocationEventMessage extends AbstractEventMessage
     public function init($message)
     {
         parent::init($message);
-        $this->setLatitude($message['Latitude'] ? $message['Latitude'] : '');
-        $this->setLongitude($message['Longitude'] ? $message['Longitude'] : '');
-        $this->setPrecision($message['Precision'] ? $message['Precision'] : '');
-        $this->setEventLocation();
+        $this->setLatitude(isset($message[Constants::LATITUDE_FIELD]) ? $message[Constants::LATITUDE_FIELD] : '');
+        $this->setLongitude(isset($message[Constants::LONGITUDE_FIELD]) ? $message[Constants::LONGITUDE_FIELD] : '');
+        $this->setPrecision(isset($message[Constants::PRECISION_FIELD]) ? $message[Constants::PRECISION_FIELD] : '');
+        $this->setEventToLocation();
+    }
+    
+    public function toString()
+    {
+        $xmlStringTpl = parent::toString();
+        return sprintf($xmlStringTpl,
+                "
+<Latitude>{$this->getLatitude()}</Latitude>
+<Longitude>{$this->getLongitude()}</Longitude>
+<Precision>{$this->getPrecision()}</Precision>"
+                            );
     }
 }
 ?>

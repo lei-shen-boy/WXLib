@@ -4,43 +4,83 @@
  */
 namespace WXLib\Message\Event;
 use WXLib\Message\AbstractMessage;
+use WXLib\Constants;
 
 class AbstractEventMessage extends AbstractMessage
 {
-    const EVENT_SUBSCRIBE_NAME = 'subscribe';
-    const EVENT_UNSUBSCRIBE_NAME = 'unsubscribe';
-    const EVENT_SCAN_NAME = 'scan';
-    const EVENT_LOCATION_NAME = 'LOCATION';
-    const EVENT_MENU_NAME = 'CLICK';
-    
     /**
      * 事件类型
      */
     protected $event;
     
-    public function setEventSub()
+    /**
+     * 是否是关注事件
+     * @return boolean
+     */
+    public function isSubEvent()
     {
-        $this->setEvent(self::EVENT_SUBSCRIBE_NAME);
+        return $this->getEvent() == Constants::SUBSCRIBE_EVENT_TYPE_NAME ? true : false;
     }
     
-    public function setEventUnsub()
+    /**
+     * 是否是取消关注事件
+     * @return boolean
+     */
+    public function isUnSubEvent()
     {
-        $this->setEvent(self::EVENT_UNSUBSCRIBE_NAME);
+        return $this->getEvent() == Constants::UNSUBSCRIBE_EVENT_TYPE_NAME ? true : false;
     }
     
-    public function setEventScan()
+    /**
+     * 是否是扫描事件
+     * @return boolean
+     */
+    public function isScanEvent()
     {
-        $this->setEvent(self::EVENT_SCAN_NAME);
+        return $this->getEvent() == Constants::SCAN_EVENT_TYPE_NAME ? true : false;
     }
     
-    public function setEventLocation()
+    /**
+     * 是否是位置事件
+     * @return boolean
+     */
+    public function isLocationEvent()
     {
-        $this->setEvent(self::EVENT_LOCATION_NAME);
+        return $this->getEvent() == Constants::LOCATION_EVENT_TYPE_NAME ? true : false;
     }
     
-    public function setEventMenu()
+    /**
+     * 是否是点击菜单事件
+     * @return boolean
+     */
+    public function isMenuEvent()
     {
-        $this->setEvent(self::EVENT_MENU_NAME);
+        return $this->getEvent() == Constants::MENU_EVENT_TYPE_NAME ? true : false;
+    }
+    
+    public function setEventToSub()
+    {
+        $this->setEvent(Constants::SUBSCRIBE_EVENT_TYPE_NAME);
+    }
+    
+    public function setEventToUnsub()
+    {
+        $this->setEvent(Constants::UNSUBSCRIBE_EVENT_TYPE_NAME);
+    }
+    
+    public function setEventToScan()
+    {
+        $this->setEvent(Constants::SCAN_EVENT_TYPE_NAME);
+    }
+    
+    public function setEventToLocation()
+    {
+        $this->setEvent(Constants::LOCATION_EVENT_TYPE_NAME);
+    }
+    
+    public function setEventToMenu()
+    {
+        $this->setEvent(Constants::MENU_EVENT_TYPE_NAME);
     }
     
     public function setEvent($event)
@@ -58,7 +98,7 @@ class AbstractEventMessage extends AbstractMessage
     public function init($message)
     {
         parent::init($message);
-        $this->event = isset($message['Event']) ? $message['Event'] : '';
+        $this->event = isset($message[Constants::EVENT_FIELD]) ? $message[Constants::EVENT_FIELD] : '';
     }
     
     public function toString()

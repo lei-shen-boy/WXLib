@@ -24,7 +24,9 @@ class Message extends Constants
 {
     protected $instance;
     
-    public function __construct($message) 
+    protected $options = array();
+    
+    public function __construct($message = null) 
     {
         if (is_string($message)) {
             $messageArray = DataParser::parseXml($message);
@@ -37,16 +39,21 @@ class Message extends Constants
             ));
         }
         
-        $messageType = $messageArray['MsgType'];
-        if (!Constants::isMessageTypeName($messageType)) {
-            throw new \Exception('Invalid message type: ' . $messageType);
+        if (isset($messageArray) && is_array($messageArray)) {
+            $this->setInstance($messageArray);
         }
-        
-        $this->setInstance($messageType, $messageArray);
     }
     
-    public function setInstance($messageType, $messageArray = null)
+    public function setInstance($messageArray = null)
     {
+        if (!isset($messageArray['MsgType'])) {
+            throw new \Exception('Please specify message type as a array element: $messageArray[\'MsgType\']');
+        }
+        if (!Constants::isMessageTypeName($messageArray['MsgType'])) {
+            throw new \Exception('Invalid message type: ' . $messageArray['MsgType']);
+        }
+        
+        $messageType = $messageArray['MsgType'];
         if ($messageType == Constants::EVENT_MESSAGGE_TYPE_NAME) {
             $eventType = $messageArray['Event'];
             $preix = '';
@@ -72,48 +79,719 @@ class Message extends Constants
         $this->instance = new $className($messageArray);
     }
     
-    public function setContent($content) {$this->instance->setContent($content); return $this;}
-    public function getContent() {return $this->instance->getContent();}
-    public function init($message) {$this->instance->init($message); return $this;}
-    public function toString() {return $this->instance->toString();}
-    public function setMessageId($messageId) {$this->instance->setMessageId($messageId); return $this;}
-    public function getMessageId() {return $this->instance->getMessageId();}
-    public function setToUser($user) {$this->instance->setToUser($user); return $this;}
-    public function getToUser() {return $this->instance->getToUser();}
-    public function setMessageType($messageType) {$this->instance->setMessageType($messageType); return $this;}
-    public function getMessageType() {return $this->instance->getMessageType();}
-    public function setFromUser($user) {$this->instance->setFromUser($user); return $this;}
-    public function setCreateTime($time) {$this->instance->setCreateTime($time); return $this;}
-    public function getFromUser() {return $this->instance->getFromUser();}
-    public function getCreateTime() {return $this->instance->getCreateTime();}
-    public function parseString($message) {$this->instance->parseString($message); return $this;}
-    public function setPicUrl($picUrl) {$this->instance->setPicUrl($picUrl); return $this;}
-    public function getPicUrl() {return $this->instance->getPicUrl();}
-    public function setMediaId($mediaId) {$this->instance->setMediaId($mediaId); return $this;}
-    public function getMediaId() {return $this->instance->getMediaId();}
-    public function setVoiceFormat($voiceFormat) {$this->instance->setVoiceFormat($voiceFormat); return $this;}
-    public function getVoiceFormat() {return $this->instance->getVoiceFormat();}
-    public function setRecognition($recognition) {$this->instance->setRecognition($recognition); return $this;}
-    public function getRecognition() {return $this->instance->getRecognition();}
-    public function setThumbMediaId($thumbMediaId) {$this->instance->setThumbMediaId($thumbMediaId); return $this;}
-    public function getThumbMediaId() {return $this->instance->getThumbMediaId();}
-    public function setTitle($title) {$this->instance->setTitle($title); return $this;}
-    public function getTitle() {return $this->instance->getTitle();}
-    public function setDescription($description) {$this->instance->setDescription($description); return $this;}
-    public function getDescription() {return $this->instance->getDescription();}
-    public function setMusicUrl($musicUrl) {$this->instance->setMusicUrl($musicUrl); return $this;}
-    public function getMusicUrl() {return $this->instance->getMusicUrl();}
-    public function setHQMusicUrl($HQMusicUrl) {$this->instance->setHQMusicUrl($HQMusicUrl); return $this;}
-    public function getHQMusicUrl() {return $this->instance->getHQMusicUrl();}
-    public function addArticle($article) {$this->instance->addArticle($article); return $this;}
-    public function setEventKey($eventKey) {$this->instance->setEventKey($eventKey); return $this;}
-    public function getEventKey() {return $this->instance->getEventKey();}
-    public function setEventSub() {$this->instance->setEventSub(); return $this;}
-    public function setEventUnsub() {$this->instance->setEventUnsub(); return $this;}
-    public function setEventScan() {$this->instance->setEventScan(); return $this;}
-    public function setEventLocation() {$this->instance->setEventLocation(); return $this;}
-    public function setEventMenu() {$this->instance->setEventMenu(); return $this;}
-    public function setEvent($event) {$this->instance->setEvent($event); return $this;}
-    public function getEvent() {return $this->instance->getEvent();}
+    protected function getInstance()
+    {
+        return $this->instance;
+    }
+    
+    protected function setOption($field, $value)
+    {
+        $this->options[$field] = $value;
+        
+        return $this;
+    }
+    
+    protected function getOption($field)
+    {
+        return $this->options[$field];
+    }
+    
+    protected function isValidInstance()
+    {
+        if ($this->instance instanceof AbstractMessage) {
+            return true;
+        }
+        
+        return false;
+    }
+    
+    public function setMessageType($messageType) 
+    {
+        if ($this->instance instanceof AbstractMessage) {
+            if ($messageType == $this->getMessageType()) {
+                return $this;
+            } else {
+                throw new \Exception('It\'s not allowd to change a existed message type');
+            }
+        } else {
+            $this->setOption(Constants::MESSAGE_TYPE_FIELD, $messageType);
+            $this->setInstance($this->options);
+            return $this;
+        }
+    }
+    
+    public function setContent($content)
+    {
+        if ($this->isValidInstance()) {
+            $this->getInstance()->setContent($content);
+        } else {
+            $this->setOption(Constants::CONTENT_FIELD, $content);
+        }
+    
+        return $this;
+    }
+    
+    
+    public function getContent()
+    {
+        if ($this->isValidInstance()) {
+            return $this->getInstance()->getContent();
+        } else {
+            return $this->getOption(Constants::CONTENT_FIELD);
+        }
+    }
+    
+    
+    public function toString()
+    {
+        if ($this->isValidInstance()) {
+            return $this->getInstance()->toString();
+        } else {
+            throw new \Exception('Please specify message type');
+        }
+    }
+    
+    public function setMessageId($messageId)
+    {
+        if ($this->isValidInstance()) {
+            $this->getInstance()->setMessageId($messageId);
+        } else {
+            $this->setOption(Constants::MESSAGE_ID_FIELD, $messageId);
+        }
+    
+        return $this;
+    }
+    
+    
+    public function getMessageId()
+    {
+        if ($this->isValidInstance()) {
+            return $this->getInstance()->getMessageId();
+        } else {
+            return $this->getOption(Constants::MESSAGE_ID_FIELD);
+        }
+    }
+    
+    
+    public function setToUser($user)
+    {
+        if ($this->isValidInstance()) {
+            $this->getInstance()->setToUser($user);
+        } else {
+            $this->setOption(Constants::TO_USER_NAME_FIELD, $user);
+        }
+    
+        return $this;
+    }
+    
+    
+    public function getToUser()
+    {
+        if ($this->isValidInstance()) {
+            return $this->getInstance()->getToUser();
+        } else {
+            return $this->getOption(Constants::TO_USER_NAME_FIELD);
+        }
+    }
+    
+    public function getMessageType()
+    {
+        if ($this->isValidInstance()) {
+            return $this->getInstance()->getMessageType();
+        } else {
+            return $this->getOption(Constants::MESSAGE_TYPE_FIELD);
+        }
+    }
+    
+    
+    public function setFromUser($user)
+    {
+        if ($this->isValidInstance()) {
+            $this->getInstance()->setFromUser($user);
+        } else {
+            $this->setOption('', $user);
+        }
+    
+        return $this;
+    }
+    
+    
+    public function setCreateTime($time)
+    {
+        if ($this->isValidInstance()) {
+            $this->getInstance()->setCreateTime($time);
+        } else {
+            $this->setOption('', $time);
+        }
+    
+        return $this;
+    }
+    
+    
+    public function getFromUser()
+    {
+        if ($this->isValidInstance()) {
+            return $this->getInstance()->getFromUser();
+        } else {
+            return $this->getOption(Constants::FROM_USER_NAME_FIELD);
+        }
+    }
+    
+    
+    public function getCreateTime()
+    {
+        if ($this->isValidInstance()) {
+            return $this->getInstance()->getCreateTime();
+        } else {
+            return $this->getOption(Constants::CREATE_TIME_FIELD);
+        }
+    }
+    
+    
+    public function setPicUrl($picUrl)
+    {
+        if ($this->isValidInstance()) {
+            $this->getInstance()->setPicUrl($picUrl);
+        } else {
+            $this->setOption(Constants::PIC_URL_FIELD, $picUrl);
+        }
+    
+        return $this;
+    }
+    
+    
+    public function getPicUrl()
+    {
+        if ($this->isValidInstance()) {
+            return $this->getInstance()->getPicUrl();
+        } else {
+            return $this->getOption(Constants::PIC_URL_FIELD);
+        }
+    }
+    
+    
+    public function setMediaId($mediaId)
+    {
+        if ($this->isValidInstance()) {
+            $this->getInstance()->setMediaId($mediaId);
+        } else {
+            $this->setOption(Constants::MEDIA_ID_FIELD, $mediaId);
+        }
+    
+        return $this;
+    }
+    
+    
+    public function getMediaId()
+    {
+        if ($this->isValidInstance()) {
+            return $this->getInstance()->getMediaId();
+        } else {
+            return $this->getOption(Constants::MEDIA_ID_FIELD);
+        }
+    }
+    
+    
+    public function setVoiceFormat($voiceFormat)
+    {
+        if ($this->isValidInstance()) {
+            $this->getInstance()->setVoiceFormat($voiceFormat);
+        } else {
+            $this->setOption(Constants::VOICE_FORMAT_FIELD, $voiceFormat);
+        }
+    
+        return $this;
+    }
+    
+    
+    public function getVoiceFormat()
+    {
+        if ($this->isValidInstance()) {
+            return $this->getInstance()->getVoiceFormat();
+        } else {
+            return $this->getOption(Constants::VOICE_FORMAT_FIELD);
+        }
+    }
+    
+    
+    public function setRecognition($recognition)
+    {
+        if ($this->isValidInstance()) {
+            $this->getInstance()->setRecognition($recognition);
+        } else {
+            $this->setOption(Constants::RECOGNITION_FIELD, $recognition);
+        }
+    
+        return $this;
+    }
+    
+    
+    public function getRecognition()
+    {
+        if ($this->isValidInstance()) {
+            return $this->getInstance()->getRecognition();
+        } else {
+            return $this->getOption(Constants::RECOGNITION_FIELD);
+        }
+    }
+    
+    
+    public function setThumbMediaId($thumbMediaId)
+    {
+        if ($this->isValidInstance()) {
+            $this->getInstance()->setThumbMediaId($thumbMediaId);
+        } else {
+            $this->setOption(Constants::THUMN_MEDIA_ID_FIELD, $thumbMediaId);
+        }
+    
+        return $this;
+    }
+    
+    
+    public function getThumbMediaId()
+    {
+        if ($this->isValidInstance()) {
+            return $this->getInstance()->getThumbMediaId();
+        } else {
+            return $this->getOption(Constants::THUMN_MEDIA_ID_FIELD);
+        }
+    }
+    
+    
+    public function setTitle($title)
+    {
+        if ($this->isValidInstance()) {
+            $this->getInstance()->setTitle($title);
+        } else {
+            $this->setOption(Constants::TITLE_FIELD, $title);
+        }
+    
+        return $this;
+    }
+    
+    
+    public function getTitle()
+    {
+        if ($this->isValidInstance()) {
+            return $this->getInstance()->getTitle();
+        } else {
+            return $this->getOption(Constants::TITLE_FIELD);
+        }
+    }
+    
+    
+    public function setDescription($description)
+    {
+        if ($this->isValidInstance()) {
+            $this->getInstance()->setDescription($description);
+        } else {
+            $this->setOption(Constants::DESCRIPTIO_FIELD, $description);
+        }
+    
+        return $this;
+    }
+    
+    
+    public function getDescription()
+    {
+        if ($this->isValidInstance()) {
+            return $this->getInstance()->getDescription();
+        } else {
+            return $this->getOption(Constants::DESCRIPTIO_FIELD);
+        }
+    }
+    
+    
+    public function setMusicUrl($musicUrl)
+    {
+        if ($this->isValidInstance()) {
+            $this->getInstance()->setMusicUrl($musicUrl);
+        } else {
+            $this->setOption(Constants::MUSIC_URL_FIELD, $musicUrl);
+        }
+    
+        return $this;
+    }
+    
+    
+    public function getMusicUrl()
+    {
+        if ($this->isValidInstance()) {
+            return $this->getInstance()->getMusicUrl();
+        } else {
+            return $this->getOption(Constants::MUSIC_URL_FIELD);
+        }
+    }
+    
+    
+    public function setHQMusicUrl($HQMusicUrl)
+    {
+        if ($this->isValidInstance()) {
+            $this->getInstance()->setHQMusicUrl($HQMusicUrl);
+        } else {
+            $this->setOption(Constants::MUSIC_HQ_MUSIC_URL, $HQMusicUrl);
+        }
+    
+        return $this;
+    }
+    
+    
+    public function getHQMusicUrl()
+    {
+        if ($this->isValidInstance()) {
+            return $this->getInstance()->getHQMusicUrl();
+        } else {
+            return $this->getOption(Constants::MUSIC_HQ_MUSIC_URL);
+        }
+    }
+    
+    
+    public function addArticle()
+    {
+        if ($this->isValidInstance()) {
+            return $this->getInstance()->addArticle();
+        } else {
+            return $this->getOption(Constants::ARTICLES_FIELD);
+        }
+    }
+    
+    
+    public function setEventKey($eventKey)
+    {
+        if ($this->isValidInstance()) {
+            $this->getInstance()->setEventKey($eventKey);
+        } else {
+            $this->setOption(Constants::EVENT_KEY_FIELD, $eventKey);
+        }
+    
+        return $this;
+    }
+    
+    
+    public function getEventKey()
+    {
+        if ($this->isValidInstance()) {
+            return $this->getInstance()->getEventKey();
+        } else {
+            return $this->getOption(Constants::EVENT_KEY_FIELD);
+        }
+    }
+    
+    
+    public function setEventToSub()
+    {
+        if ($this->isValidInstance()) {
+            $this->getInstance()->setEventSub();
+        } else {
+            $this->setOption(Constants::EVENT_FIELD, Constants::SUBSCRIBE_EVENT_TYPE_NAME);
+        }
+    
+        return $this;
+    }
+    
+    
+    public function setEventToUnsub()
+    {
+        if ($this->isValidInstance()) {
+            $this->getInstance()->setEventUnsub();
+        } else {
+            $this->setOption(Constants::EVENT_FIELD, Constants::UNSUBSCRIBE_EVENT_TYPE_NAME);
+        }
+    
+        return $this;
+    }
+    
+    
+    public function setEventToScan()
+    {
+        if ($this->isValidInstance()) {
+            $this->getInstance()->setEventScan();
+        } else {
+            $this->setOption(Constants::EVENT_FIELD, Constants::SCAN_EVENT_TYPE_NAME);
+        }
+    
+        return $this;
+    }
+    
+    
+    public function setEventToLocation()
+    {
+        if ($this->isValidInstance()) {
+            $this->getInstance()->setEventLocation();
+        } else {
+            $this->setOption(Constants::EVENT_FIELD, Constants::LOCATION_EVENT_TYPE_NAME);
+        }
+    
+        return $this;
+    }
+    
+    
+    public function setEventToMenu()
+    {
+        if ($this->isValidInstance()) {
+            $this->getInstance()->setEventMenu();
+        } else {
+            $this->setOption(Constants::EVENT_FIELD, Constants::MENU_EVENT_TYPE_NAME);
+        }
+    
+        return $this;
+    }
+    
+    
+    public function setEvent($event)
+    {
+        if ($this->isValidInstance()) {
+            $this->getInstance()->setEvent($event);
+        } else {
+            $this->setOption(Constants::EVENT_FIELD, $event);
+        }
+    
+        return $this;
+    }
+    
+    
+    public function getEvent()
+    {
+        if ($this->isValidInstance()) {
+            return $this->getInstance()->getEvent();
+        } else {
+            return $this->getOption(Constants::EVENT_FIELD);
+        }
+    }
+    
+    /**
+     * 是否是文本消息
+     * @return boolean
+     */
+    public function isText()
+    {
+        if ($this->isValidInstance()) {
+            return $this->getInstance()->isText();
+        } else {
+            throw new \Exception('Please first specify message type');
+        }
+    }
+    
+    /**
+     * 是否是图片消息
+     * @return boolean
+     */
+    public function isImage()
+    {
+        if ($this->isValidInstance()) {
+            return $this->getInstance()->isImage();
+        } else {
+            throw new \Exception('Please first specify message type');
+        }
+    }
+    
+    /**
+     * 是否是语音消息
+     * @return boolean
+     */
+    public function isVoice()
+    {
+        if ($this->isValidInstance()) {
+            return $this->getInstance()->isVoice();
+        } else {
+            throw new \Exception('Please first specify message type');
+        }
+    }
+    
+    /**
+     * 是否是视频消息
+     * @return boolean
+     */
+    public function isVideo()
+    {
+        if ($this->isValidInstance()) {
+            return $this->getInstance()->isVideo();
+        } else {
+            throw new \Exception('Please first specify message type');
+        }
+    }
+    
+    /**
+     * 是否是位置消息
+     * @return boolean
+     */
+    public function isLocation()
+    {
+        if ($this->isValidInstance()) {
+            return $this->getInstance()->isLocation();
+        } else {
+            throw new \Exception('Please first specify message type');
+        }
+    }
+    
+    /**
+     * 是否是事件消息
+     * @return boolean
+     */
+    public function isEvent()
+    {
+        if ($this->isValidInstance()) {
+            return $this->getInstance()->isEvent();
+        } else {
+            throw new \Exception('Please first specify message type');
+        }
+    }
+    
+    /**
+     * 是否是关注事件
+     * @return boolean
+     */
+    public function isSubEvent()
+    {
+        if ($this->isValidInstance()) {
+            return $this->getInstance()->isSubEvent();
+        } else {
+            throw new \Exception('Please first specify message type');
+        }
+    }
+    
+    /**
+     * 是否是扫描后关注事件
+     * 新用户：如果用户还未关注公众号，则用户可以关注公众号，关注后微信会将带场景值关注事件推送给开发者
+     * @throws \Exception
+     * @return boolean
+     */
+    public function isScanSubEvent()
+    {
+        if ($this->isValidInstance()) {
+            return $this->getInstance()->isScanSubEvent();
+        } else {
+            throw new \Exception('Please first specify message type');
+        }
+    }
+    
+    /**
+     * 是否是取消关注事件
+     * @return boolean
+     */
+    public function isUnSubEvent()
+    {
+        if ($this->isValidInstance()) {
+            return $this->getInstance()->isUnSubEvent();
+        } else {
+            throw new \Exception('Please first specify message type');
+        }
+    }
+    
+    /**
+     * 是否是扫描事件
+     * @return boolean
+     */
+    public function isScanEvent()
+    {
+        if ($this->isValidInstance()) {
+            return $this->getInstance()->isScanEvent();
+        } else {
+            throw new \Exception('Please first specify message type');
+        }
+    }
+    
+    /**
+     * 是否是位置事件
+     * @return boolean
+     */
+    public function isLocationEvent()
+    {
+        if ($this->isValidInstance()) {
+            return $this->getInstance()->isScanEvent();
+        } else {
+            throw new \Exception('Please first specify message type');
+        }
+    }
+    
+    /**
+     * 是否是点击菜单事件
+     * @return boolean
+     */
+    public function isMenuEvent()
+    {
+        if ($this->isValidInstance()) {
+            return $this->getInstance()->isMenuEvent();
+        } else {
+            throw new \Exception('Please first specify message type');
+        }
+    }
+    
+    /**
+     * 设置为文本消息
+     * @return boolean
+     */
+    public function setToText()
+    {
+        if ($this->isValidInstance()) {
+            return $this->getInstance()->setText();
+        } else {
+            $this->setMessageType(Constants::TEXT_MESSAGE_TYPE_NAME);
+        }
+    
+        return $this;
+    }
+    
+    /**
+     * 设置为图片消息
+     * @return boolean
+     */
+    public function setToImage()
+    {
+        if ($this->isValidInstance()) {
+            return $this->getInstance()->setImage();
+        } else {
+            $this->setMessageType(Constants::IMAGE_MESSAGE_TYPE_NAME);
+        }
+    
+        return $this;
+    }
+    
+    /**
+     * 设置为语音消息
+     * @return boolean
+     */
+    public function setToVoice()
+    {
+        if ($this->isValidInstance()) {
+            return $this->getInstance()->setVoice();
+        } else {
+            $this->setMessageType(Constants::VOICE_MESSAGGE_TYPE_NAME);
+        }
+    
+        return $this;
+    }
+    
+    /**
+     * 设置为视频消息
+     * @return boolean
+     */
+    public function setToVideo()
+    {
+        if ($this->isValidInstance()) {
+            return $this->getInstance()->setVideo();
+        } else {
+            $this->setMessageType(Constants::VIDEO_MESSAGGE_TYPE_NAME);
+        }
+    
+        return $this;
+    }
+    
+    /**
+     * 设置为事件消息
+     * @return boolean
+     */
+    public function setToEvent()
+    {
+        if ($this->isValidInstance()) {
+            return $this->getInstance()->setEvent();
+        } else {
+            $this->setMessageType(Constants::EVENT_MESSAGGE_TYPE_NAME);
+        }
+    
+        return $this;
+    }
+    
+   
 }
 ?>

@@ -28,7 +28,40 @@ WXLib/Vendor/ClassLoader.php, 控制的文件自动加载
 
 ------------WXLIb/Message, 对接收/回复消息进行了封装,对发送客服消息进行了封装
 
-------------WXLIb/Message/Message.php, 对接收微信服务器的通知消息，对发送响应消息进行装饰器模式封装，提供统一的对外方法
+------------WXLIb/Message/Message.php, 公共接口类，所有和接收消息/响应消息有关的接口方法都封装在了里面
+
+
+
+使用示例：
+<?php
+require_once 'Vendor/autoload.php';
+use WXLib\Message\Message;
+
+// 接收到事件消息
+$xml = '<xml>
+<ToUserName><![CDATA[toUser]]></ToUserName>
+<FromUserName><![CDATA[FromUser]]></FromUserName>
+<CreateTime>123456789</CreateTime>
+<MsgType><![CDATA[event]]></MsgType>
+<Event><![CDATA[subscribe]]></Event>
+</xml>';
+
+// 实例化
+$m = new Message($xml);
+
+// 获取消息类型
+$messageType = $m->getMessageType();
+
+// 判段是否是时间类型
+var_dump($m->isEvent());
+
+// 构造一个响应消息
+$response = new Message();
+$response->setToUser($toUser)
+         ->setFromUser($fromUser)
+         ->setToText() // 相当于->setMessageType(Message::TEXT_MESSAGE_TYPE_NAME)
+         ->setContent('my response');
+echo $response->toString();
 
 Demo
 -----

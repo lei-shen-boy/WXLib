@@ -23,7 +23,7 @@ class TextCommonMessage extends AbstractCommonMessage
     public function init($message)
     {
         parent::init($message);
-        $this->setContent($message['Content'] ? $message['Content'] : '');
+        $this->setContent(isset($message['Content']) ? $message['Content'] : '');
     }
     
     public function toString()

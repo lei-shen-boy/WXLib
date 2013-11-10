@@ -5,6 +5,7 @@
  *
  */
 namespace WXLib\Message\Event;
+use WXLib\Constants;
 class MenuEventMessage extends AbstractEventMessage
 {
     /**
@@ -27,8 +28,17 @@ class MenuEventMessage extends AbstractEventMessage
     public function init($message)
     {
         parent::init($message);
-        $this->setEventKey($message['EventKey'] ? $message['EventKey'] : '');
-        $this->setEventMenu();
+        $this->setEventKey(isset($message[Constants::EVENT_KEY_FIELD]) ? $message[Constants::EVENT_KEY_FIELD] : '');
+        $this->setEventToMenu();
+    }
+    
+    public function toString()
+    {
+        $xmlStringTpl = parent::toString();
+        return sprintf($xmlStringTpl,
+                "
+<EventKey><![CDATA[{$this->getEventKey()}]]></EventKey>"
+                                );
     }
 }
 ?>

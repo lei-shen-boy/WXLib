@@ -7,6 +7,7 @@
  *
  */
 namespace WXLib\Message\Event;
+use WXLib\Constants;
 class ScanQREventMessage extends AbstractEventMessage
 {
     /**
@@ -41,26 +42,18 @@ class ScanQREventMessage extends AbstractEventMessage
     public function init($message)
     {
         parent::init($message);
-        $this->setEventKey($message['EventKey'] ? $message['EventKey'] : '');
-        $this->setTicket($message['Ticket'] ? $message['Ticket'] : '');
-        $this->setEventScan();
+        $this->setEventKey($message[Constants::EVENT_KEY_FIELD] ? $message[Constants::EVENT_KEY_FIELD] : '');
+        $this->setTicket($message[Constants::TICKET_FIELD] ? $message[Constants::TICKET_FIELD] : '');
+        $this->setEventToScan();
     }
     
-    /**
-     * 新用户：如果用户还未关注公众号，则用户可以关注公众号，关注后微信会将带场景值关注事件推送给开发者
-     * 老用户：如果用户已经关注公众号，则微信会将带场景值扫描事件推送给开发者
-     * @throws \Exception
-     * @return boolean
-     */
-    public function isNewUser()
+    public function toString()
     {
-        if (!$this->getEventKey()) {
-            throw new \Exception('Error: EventKey is invalid, ' . __METHOD__);
-        }
-        if (0 === strpos($this->getEventKey(), 'qrscene_')) {
-            return true;
-        }
-        return false;
+        $xmlStringTpl = parent::toString();
+        return sprintf($xmlStringTpl,
+                "<EventKey><![CDATA[{$this->getEventKey()}]]></EventKey>
+<Ticket><![CDATA[{$this->getTicket()}]]></Ticket>"
+                        );
     }
 }
 ?>

@@ -66,18 +66,48 @@ class DecoratorCreater
     }
     
     public function toMethodString($methodName, $params) {
-        if (strpos($methodName, 'get') === 0) {
-            $tpl = 'public function %s(%s) {return $this->instance->%s(%s);}';
+        if (strpos($methodName, 'set') === 0) {
+            $tpl = 
+'
+    public function %s(%s) 
+    {
+        if ($this->isValidInstance()) {
+            $this->getInstance()->%s(%s);
         } else {
-            $tpl = 'public function %s(%s) {$this->instance->%s(%s); return $this;}';
+            $this->setOption(\'\', %s);
         }
-        return sprintf(
-                $tpl, 
-                $methodName, 
-                implode(', ', $params) ? '$' . implode(', ', $params) : '', 
-                $methodName, 
-                implode(', ', $params) ? '$' . implode(', ', $params) : ''
-        );
+        
+        return $this;
+    }
+';
+            $params = implode(', ', $params) ? '$' . implode(', ', $params) : '';
+            return sprintf(
+                    $tpl,
+                    $methodName,
+                    $params,
+                    $methodName,
+                    $params,
+                    $params
+            );
+        } else {
+            $tpl = 
+'
+    public function %s() 
+    {
+        if ($this->isValidInstance()) {
+            return $this->getInstance()->%s();
+        } else {
+            return $this->getOption(\'\');
+        }
+    }
+';
+            return sprintf(
+                    $tpl,
+                    $methodName,
+                    $methodName
+            );
+        }
+        
     }
     
     public function create()

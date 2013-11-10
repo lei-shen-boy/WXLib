@@ -6,7 +6,7 @@ require_once 'Vendor/autoload.php';
 use WXLib\Message\Message;
 
 /*
- * 模拟收到微信平台的接口消息
+ * 模拟收到微信平台的消息
  */
 $message = '<xml>
  <ToUserName><![CDATA[toUser]]></ToUserName>
@@ -31,13 +31,13 @@ $received = new Message($message);
  $msgType = $received->getMessageType();
  $content = $received->getContent();
  $msgId = $received->getMessageId();
+ echo $received->toString();
  // @todo 应用程序自己的逻辑
 
 /*
  * 设置要响应的消息
  */
 // 将消息体作为数组实例化一个Message实例
-/*
 $response = new Message(array(
         'ToUserName' => $fromUser,
         'FromUserName' => $toUser,
@@ -46,13 +46,12 @@ $response = new Message(array(
         'Content' => 'my response',
 ));
 echo $response->toString();
-*/
  
 // 或者使用Message提供的方法来设置消息体，推荐使用这种方式
 $response = new Message();
 $response->setToUser($toUser)
          ->setFromUser($fromUser)
-         ->setMessageType(Message::TEXT_MESSAGE_TYPE_NAME)
+         ->setToText() // 相当于->setMessageType(Message::TEXT_MESSAGE_TYPE_NAME)
          ->setContent('my response');
 echo $response->toString();
 ?>
