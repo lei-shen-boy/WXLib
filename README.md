@@ -27,7 +27,7 @@ if ($received->isText()) {
     // @todo
 }
 
-// 获取消息的每个字段的值
+// 使用Message提供的get方法获取消息的每个字段值
 $toUser = $received->getToUser();
 $fromUser = $received->getFromUser();
 $createTime = $received->getCreateTime();
@@ -38,9 +38,9 @@ $msgId = $received->getMessageId();
 // 使用Message提供的set方法来设置设置要响应的消息，推荐使用这种方式
 $response = new Message();
 $response->setToUser($toUser)
-->setFromUser($fromUser)
-->setToText() // 相当于->setMessageType(Message::TEXT_MESSAGE_TYPE_NAME)
-->setContent('my response');
+         ->setFromUser($fromUser)
+         ->setToText() // 相当于->setMessageType(Message::TEXT_MESSAGE_TYPE_NAME)
+         ->setContent('my response');
 
 // 输出xml格式的文本
 echo $response->toString();
