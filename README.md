@@ -15,13 +15,9 @@ Demo
 
 
 
-开发包WXlib/vendor/WXLib目录结构：
+公共接口类WXLIb/Message/Message.php：
 
-------------WXLib/Basic, 对获取access_token, 媒体上传和下载进行了封装
-
-------------WXLIb/Message, 对接收/回复消息进行了封装,对发送客服消息进行了封装
-
-------------WXLIb/Message/Message.php, 公共接口类，所有和接收消息/响应消息有关的接口方法都封装在了里面
+------------WXLIb/Message/Message.php, 公共接口类，所有和接收消息/响应消息有关的接口方法都封装在了里面,可以方便的使用
 
 项目结构
 -----
