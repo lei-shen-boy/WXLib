@@ -78,8 +78,8 @@ Demo
 
 公共接口类
 -----
-WXLib/Message/Message.php, 所有和接收消息/响应消息有关的接口方法都封装在了里面，该类会根据消息类型去实例化相应的class,所有细节部分对使用者都是透明的<br/>
-WXLib/Message/CSMessage.php, 所有和发送客服消息有关的接口方法都封装在了里面，该类会根据消息类型去实例化相应的class,所有细节部分对使用者都是透明的
+WXLib/Message/Message.php, 封装了和接收消息/响应消息有关的接口方法，该类会根据消息类型去实例化相应的class,所有细节部分对使用者都是透明的<br/>
+WXLib/Message/CSMessage.php, 封装了和发送客服消息有关的接口方法，该类会根据消息类型去实例化相应的class,所有细节部分(获取token, 调用微信接口等)对使用者都是透明的
 
 项目结构
 -----
