@@ -8,6 +8,8 @@ WXLib
 开发者不需要记微信接口里的任何字段，也不用担心某天某个接口的字段值发生改变后的代码维护，因为在本sdk里都进行了封装，接口方法的命名规则严格遵从了微信开放平台的接口文档，开发者在使用此sdk时，如果你的编辑器(zend studio, eclipse)支持代码提示功能,那么你就能快速定位到要你需要使用的接口方法！
 
 <img src="http://fucklife.net/wp/wp-content/uploads/2013/11/3.jpg" />
+#####
+演示接收微信服务器的通知消息并发送响应消息<br/>
 <pre><code>
 /**
  * 演示接收微信服务器的通知消息并发送响应消息
@@ -54,6 +56,22 @@ $response = new Message(array(
         Constants::CONTENT_FIELD => 'my response',
 ));
 echo $response->toString();
+</code></pre>
+#####
+演示发送客服图文消息<br/>
+<pre><code>
+// 发送图文消息
+$cs = new CSMessage();
+$cs->setToUser('tosuer')
+   ->setToNews();
+$a = new Article();
+$a->setTitle('title1')
+  ->setDescription('des1')
+  ->setUrl('url1')
+  ->setPicUrl('picurl');
+$cs->addArticle($a);
+$cs->toString();
+$cs->send();
 </code></pre>
 环境要求
 -----
