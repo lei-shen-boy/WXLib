@@ -15,7 +15,7 @@ class TextCSMessage extends AbstractCSMessage
     {
         $this->setMessageType(Constants::CS_TEXT_MESSAGE_TYPE_NAME);
         $this->setContent(isset($message[Constants::CS_CONTENT_FIELD]) ? $message[Constants::CS_CONTENT_FIELD] : '');
-        parent::__construct($message = null, $accessToken = null);
+        parent::__construct($message, $accessToken);
     }
     
     public function initFieldNames()

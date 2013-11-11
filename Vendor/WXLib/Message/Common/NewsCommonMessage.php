@@ -29,7 +29,12 @@ class NewsCommonMessage extends AbstractCommonMessage
     
     public function addArticle($article)
     {
-        $this->articles[] = new Article($article);
+        if ($article instanceof Article) {
+            $this->articles[] = $article;
+        } else {
+            $this->articles[] = new Article($article);
+        }
+        
         $this->articleCount += 1;
     }
     

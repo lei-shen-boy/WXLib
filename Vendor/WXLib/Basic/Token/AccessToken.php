@@ -61,7 +61,7 @@ class AccessToken
     {
         //@todo 从本地获取accessToken
         $localToken = array(
-                'accessToken' => 'PP6ei_QjFP7nr44U6I0SqDTLPWKkCOnoXFXGFVr9BXMcUop90i0vgHwXJ9QtB8y1M1v0oNMNJrMWxZaJOafRQOiI84VPxI48RpqERcRbe6RuL2G9IYbg0pNf1NvwSO1H7pI1AfEA_rUn1gf9bXrl3g',
+                'accessToken' => 'zirjsruhwjVxxFhD_SVkoYouZSVpUm4XD7LPsV_KAz9hk1oZgKszTqWPkEPg58xQOPSr6muKwJM_20PlZu4vUQLuMCG_H_qp259py9uGFgbQhEnPsXlRFa3jvDOajDdC1Ha--fcFx0esppECrGTpfQ',
                 'updatedTime' => time()
         );
         $this->setAccessToken($localToken['accessToken']);

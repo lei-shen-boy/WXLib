@@ -294,13 +294,104 @@ class CSMessage
         }
     }
     
-    public function addArticle()
+    public function addArticle($article)
     {
         if ($this->isValidInstance()) {
-            return $this->getInstance()->addArticle();
+            return $this->getInstance()->addArticle($article);
         } else {
-            return $this->getOption(Constants::CS_ARTICLES_FIELD);
+            throw new \Exception('Please first specify message type to news');
         }
+        
+    }
+    
+    /**
+     * 设置为文本消息
+     * @return boolean
+     */
+    public function setToText()
+    {
+        if ($this->isValidInstance()) {
+            return $this->getInstance()->setToText();
+        } else {
+            $this->setMessageType(Constants::TEXT_MESSAGE_TYPE_NAME);
+        }
+    
+        return $this;
+    }
+    
+    /**
+     * 设置为图片消息
+     * @return boolean
+     */
+    public function setToImage()
+    {
+        if ($this->isValidInstance()) {
+            return $this->getInstance()->setToImage();
+        } else {
+            $this->setMessageType(Constants::IMAGE_MESSAGE_TYPE_NAME);
+        }
+    
+        return $this;
+    }
+    
+    /**
+     * 设置为语音消息
+     * @return boolean
+     */
+    public function setToVoice()
+    {
+        if ($this->isValidInstance()) {
+            return $this->getInstance()->setToVoice();
+        } else {
+            $this->setMessageType(Constants::VOICE_MESSAGGE_TYPE_NAME);
+        }
+    
+        return $this;
+    }
+    
+    /**
+     * 设置为视频消息
+     * @return boolean
+     */
+    public function setToVideo()
+    {
+        if ($this->isValidInstance()) {
+            return $this->getInstance()->setToVideo();
+        } else {
+            $this->setMessageType(Constants::VIDEO_MESSAGGE_TYPE_NAME);
+        }
+    
+        return $this;
+    }
+    
+    /**
+     * 设置为音乐消息
+     * @return boolean
+     */
+    public function setToMusic()
+    {
+        if ($this->isValidInstance()) {
+            return $this->getInstance()->setToMusic();
+        } else {
+            $this->setMessageType(Constants::MUSIC_MESSAGGE_TYPE_NAME);
+        }
+    
+        return $this;
+    }
+    
+    /**
+     * 设置为图文消息
+     * @return boolean
+     */
+    public function setToNews()
+    {
+        if ($this->isValidInstance()) {
+            return $this->getInstance()->setNews();
+        } else {
+            $this->setMessageType(Constants::CS_NEWS_MESSAGGE_TYPE_NAME);
+        }
+    
+        return $this;
     }
 }
 ?>

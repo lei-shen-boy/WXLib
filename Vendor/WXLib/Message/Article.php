@@ -38,7 +38,7 @@ class Article
         } elseif (is_string($article)) {
             $this->init((array)simplexml_load_string($article, 'SimpleXMLElement', LIBXML_NOCDATA));
         } elseif ($article !== null) {
-            throw new Exception('Error:' . __METHOD__);
+            throw new \Exception('Error:' . __METHOD__);
         }
     }
     
@@ -72,11 +72,14 @@ class Article
     public function setTitle($title)
     {
         $this->title = $title;
+        
+        return $this;
     }
     
     public function getTitle()
     {
         return $this->title;
+        
     }
     
     public function setDescription($description)

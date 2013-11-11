@@ -204,6 +204,28 @@ abstract class AbstractMessage
     }
     
     /**
+     * 设置为音乐消息
+     * @return boolean
+     */
+    public function setToMusic()
+    {
+        $this->messageType = Constants::MUSIC_MESSAGGE_TYPE_NAME;
+    
+        return $this;
+    }
+    
+    /**
+     * 设置为图文消息
+     * @return boolean
+     */
+    public function setToNews()
+    {
+        $this->messageType = Constants::NEWS_MESSAGGE_TYPE_NAME;
+    
+        return $this;
+    }
+    
+    /**
      * 设置为事件消息
      * @return boolean
      */

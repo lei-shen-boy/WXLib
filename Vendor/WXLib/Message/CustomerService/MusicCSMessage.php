@@ -25,7 +25,7 @@ class MusicCSMessage extends AbstractMediaCSMessage
     public function __construct($message = null, $accessToken = null)
     {
         $this->setMessageType(self::MESSAGE_TYPE);
-        parent::__construct($message = null, $accessToken = null);
+        parent::__construct($message, $accessToken);
         array_push($this->fieldNames, self::TITLE_FIELD_NAME, self::DESCRIPTION_FIELD_NAME, self::MUSIC_URL_FIELD_NAME, self::HQ_MUSIC_URL_FIELD_NAME, self::THUMB_MEDIA_ID_FIELD_NAME);
     }
     

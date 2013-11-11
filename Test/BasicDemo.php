@@ -25,13 +25,15 @@ use WXLib\Basic\Media\MediaUploadRequest;
 
 try {
     
+    $m = new MediaUploadRequest('image', '../Data/head.jpg');
+    var_dump($m->upload());
+    exit;
+    
     $m = new MediaUploadRequest('voice', '../data/test.mp3');
     var_dump($m->upload());
     exit;
     
-    $m = new MediaUploadRequest('image', '../data/test.jpg');
-    var_dump($m->upload());
-    exit;
+    
     
     $t = new AccessToken();
     var_dump($t->get());

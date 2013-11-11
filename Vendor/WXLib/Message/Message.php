@@ -209,7 +209,7 @@ class Message extends Constants
         if ($this->isValidInstance()) {
             $this->getInstance()->setFromUser($user);
         } else {
-            $this->setOption('', $user);
+            $this->setOption(Constants::FROM_USER_NAME_FIELD, $user);
         }
     
         return $this;
@@ -221,7 +221,7 @@ class Message extends Constants
         if ($this->isValidInstance()) {
             $this->getInstance()->setCreateTime($time);
         } else {
-            $this->setOption('', $time);
+            $this->setOption(Constants::CREATE_TIME_FIELD, $time);
         }
     
         return $this;
@@ -446,10 +446,10 @@ class Message extends Constants
     }
     
     
-    public function addArticle()
+    public function addArticle($article)
     {
         if ($this->isValidInstance()) {
-            return $this->getInstance()->addArticle();
+            return $this->getInstance()->addArticle($article);
         } else {
             return $this->getOption(Constants::ARTICLES_FIELD);
         }
@@ -474,6 +474,82 @@ class Message extends Constants
             return $this->getInstance()->getEventKey();
         } else {
             return $this->getOption(Constants::EVENT_KEY_FIELD);
+        }
+    }
+    
+    public function setTicket($ticket)
+    {
+        if ($this->isValidInstance()) {
+            $this->getInstance()->setTicket($ticket);
+        } else {
+            $this->setOption(Constants::TICKET_FIELD, $ticket);
+        }
+    
+        return $this;
+    }
+    
+    public function getTicket()
+    {
+        if ($this->isValidInstance()) {
+            return $this->getInstance()->getTicket();
+        } else {
+            return $this->getOption(Constants::TICKET_FIELD);
+        }
+    }
+    
+    public function setLatitude($latitude)
+    {
+        if ($this->isValidInstance()) {
+            $this->getInstance()->setLatitude($latitude);
+        } else {
+            $this->setOption(Constants::LATITUDE_FIELD, setLatitude);
+        }
+        
+        return $this;
+    }
+    
+    public function getLatitude()
+    {
+        if ($this->isValidInstance()) {
+            return $this->getInstance()->getLatitude();
+        } else {
+            return $this->getOption(Constants::LATITUDE_FIELD);
+        }
+    }
+    
+    public function setLongitude($longitude)
+    {
+        if ($this->isValidInstance()) {
+            $this->getInstance()->setLongitude($longitude);
+        } else {
+            $this->setOption(Constants::LONGITUDE_FIELD, $longitude);
+        }
+    }
+    
+    public function getLongitude()
+    {
+        if ($this->isValidInstance()) {
+            return $this->getInstance()->getLongitude();
+        } else {
+            return $this->getOption(Constants::LONGITUDE_FIELD);
+        }
+    }
+    
+    public function setPrecision($precision)
+    {
+        if ($this->isValidInstance()) {
+            $this->getInstance()->setPrecision($precision);
+        } else {
+            $this->setOption(Constants::PRECISION_FIELD, $precision);
+        }
+    }
+    
+    public function getPrecision()
+    {
+        if ($this->isValidInstance()) {
+            return $this->getInstance()->getPrecision();
+        } else {
+            return $this->getOption(Constants::PRECISION_FIELD);
         }
     }
     
@@ -698,7 +774,7 @@ class Message extends Constants
     public function isLocationEvent()
     {
         if ($this->isValidInstance()) {
-            return $this->getInstance()->isScanEvent();
+            return $this->getInstance()->isLocationEvent();
         } else {
             throw new \Exception('Please first specify message type');
         }
@@ -724,7 +800,7 @@ class Message extends Constants
     public function setToText()
     {
         if ($this->isValidInstance()) {
-            return $this->getInstance()->setText();
+            return $this->getInstance()->setToText();
         } else {
             $this->setMessageType(Constants::TEXT_MESSAGE_TYPE_NAME);
         }
@@ -739,7 +815,7 @@ class Message extends Constants
     public function setToImage()
     {
         if ($this->isValidInstance()) {
-            return $this->getInstance()->setImage();
+            return $this->getInstance()->setToImage();
         } else {
             $this->setMessageType(Constants::IMAGE_MESSAGE_TYPE_NAME);
         }
@@ -754,7 +830,7 @@ class Message extends Constants
     public function setToVoice()
     {
         if ($this->isValidInstance()) {
-            return $this->getInstance()->setVoice();
+            return $this->getInstance()->setToVoice();
         } else {
             $this->setMessageType(Constants::VOICE_MESSAGGE_TYPE_NAME);
         }
@@ -769,7 +845,7 @@ class Message extends Constants
     public function setToVideo()
     {
         if ($this->isValidInstance()) {
-            return $this->getInstance()->setVideo();
+            return $this->getInstance()->setToVideo();
         } else {
             $this->setMessageType(Constants::VIDEO_MESSAGGE_TYPE_NAME);
         }
@@ -784,9 +860,24 @@ class Message extends Constants
     public function setToEvent()
     {
         if ($this->isValidInstance()) {
-            return $this->getInstance()->setEvent();
+            return $this->getInstance()->setToEvent();
         } else {
             $this->setMessageType(Constants::EVENT_MESSAGGE_TYPE_NAME);
+        }
+    
+        return $this;
+    }
+    
+    /**
+     * 设置为图文消息
+     * @return boolean
+     */
+    public function setToNews()
+    {
+        if ($this->isValidInstance()) {
+            return $this->getInstance()->setNews();
+        } else {
+            $this->setMessageType(Constants::NEWS_MESSAGGE_TYPE_NAME);
         }
     
         return $this;

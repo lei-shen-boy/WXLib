@@ -16,7 +16,7 @@ class VideoCSMessage extends AbstractMediaCSMessage
     public function __construct($message = null, $accessToken = null)
     {
         $this->setMessageType(self::MESSAGE_TYPE);
-        parent::__construct($message = null, $accessToken = null);
+        parent::__construct($message, $accessToken);
         array_push($this->fieldNames, self::THUMB_MEDIA_ID_FIELD_NAME);
     }
     
