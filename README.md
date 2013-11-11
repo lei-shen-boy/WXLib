@@ -9,15 +9,8 @@ WXLib
 
 <img src="http://fucklife.net/wp/wp-content/uploads/2013/11/3.jpg" />
 #####
-演示接收微信服务器的通知消息并发送响应消息<br/>
+演示接收微信服务器的通知消息并发送响应消息:<br/>
 <pre><code>
-/**
- * 演示接收微信服务器的通知消息并发送响应消息
- */
-require_once 'Vendor/autoload.php';
-use WXLib\Message\Message;
-use WXLib\Constants;
-
 // 模拟收到微信平台的消息
 $message = 'xmlString from weixin server';
 
@@ -58,20 +51,19 @@ $response = new Message(array(
 echo $response->toString();
 </code></pre>
 #####
-演示发送客服图文消息<br/>
+演示发送客服图文消息:<br/>
 <pre><code>
 // 发送图文消息
-$cs = new CSMessage();
-$cs->setToUser('tosuer')
-   ->setToNews();
 $a = new Article();
 $a->setTitle('title1')
   ->setDescription('des1')
   ->setUrl('url1')
   ->setPicUrl('picurl');
-$cs->addArticle($a);
-$cs->toString();
-$cs->send();
+$cs = new CSMessage();
+$cs->setToUser('tosuer')
+   ->setToNews(); // 设置消息类型为图文
+   ->addArticle($a);
+   ->send();
 </code></pre>
 环境要求
 -----
