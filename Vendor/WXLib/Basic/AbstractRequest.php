@@ -26,6 +26,11 @@ abstract class AbstractRequest implements RequestInterface
     public function setRequest()
     {
         $request = new \HTTP_Request2($this->apiOptions['url'], $this->apiOptions['method']);
+        $request->setConfig(array(
+                'proxy_host'        => 'web-proxy.oa.com',
+                'proxy_port'        => 8080,
+        ));
+        
         if ($request->getUrl()->getScheme() == 'https') {
             $request->setConfig(array(
                     'ssl_verify_peer' => false,
@@ -61,7 +66,7 @@ abstract class AbstractRequest implements RequestInterface
     protected function parseResponse($response)
     {
         $res = json_decode($response->getBody(), true);
-        if (isset($res['errcode'])) {
+        if (isset($res['errcode']) && $res['errcode'] != 0) {
             throw new \Exception('Error: ' . $res['errmsg']);
         }
     

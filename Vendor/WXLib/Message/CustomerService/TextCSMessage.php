@@ -6,25 +6,22 @@
  */
 namespace WXLib\Message\CustomerService;
 
+use WXLib\Constants;
 class TextCSMessage extends AbstractCSMessage
 {
-    const CONTENT_FIELD_NAME = 'content';
-    
-    const MESSAGE_TYPE = 'text';
-    
     protected $content;
     
     public function __construct($message = null, $accessToken = null)
     {
-        $this->setMessageType(self::MESSAGE_TYPE);
-        $this->setContent(isset($message['Content']) ? $message['Content'] : '');
+        $this->setMessageType(Constants::CS_TEXT_MESSAGE_TYPE_NAME);
+        $this->setContent(isset($message[Constants::CS_CONTENT_FIELD]) ? $message[Constants::CS_CONTENT_FIELD] : '');
         parent::__construct($message = null, $accessToken = null);
     }
     
     public function initFieldNames()
     {
         parent::initFieldNames();
-        array_push($this->fieldNames, self::CONTENT_FIELD_NAME, $this->getMessageType());
+        array_push($this->fieldNames, Constants::CS_CONTENT_FIELD, $this->getMessageType());
     }
     
     public function setContent($content)
@@ -41,7 +38,7 @@ class TextCSMessage extends AbstractCSMessage
     
     public function setDetailOptions()
     {
-        $this->setOption($this->getMessageType(), array(self::CONTENT_FIELD_NAME => $this->getContent()));
+        $this->setOption($this->getMessageType(), array(Constants::CS_CONTENT_FIELD => $this->getContent()));
     }
     
 }

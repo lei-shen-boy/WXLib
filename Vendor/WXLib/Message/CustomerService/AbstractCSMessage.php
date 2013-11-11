@@ -7,6 +7,7 @@
 namespace WXLib\Message\CustomerService;
 
 use WXLib\Basic\RawBodyRequest;
+use WXLib\Constants;
 
 abstract class AbstractCSMessage extends RawBodyRequest implements AbstractCSMessageInterface
 {
@@ -14,9 +15,6 @@ abstract class AbstractCSMessage extends RawBodyRequest implements AbstractCSMes
             'method' => 'POST',
             'url' => 'https://api.weixin.qq.com/cgi-bin/message/custom/send',
     );
-    
-    const TO_USER_FIELD_NAME = 'touser';
-    const MESSAGE_TYPE_FIELD_NAME = 'msgtype';
     
     protected $fieldNames = array();
     
@@ -41,7 +39,7 @@ abstract class AbstractCSMessage extends RawBodyRequest implements AbstractCSMes
     
     public function initFieldNames()
     {
-        $this->fieldNames = array(self::TO_USER_FIELD_NAME, self::MESSAGE_TYPE_FIELD_NAME);
+        $this->fieldNames = array(Constants::CS_TO_USER_FIELD, Constants::CS_MESSAGE_TYPE_FIELD);
     }
     
     public function setOption($field, $value)
@@ -64,15 +62,15 @@ abstract class AbstractCSMessage extends RawBodyRequest implements AbstractCSMes
     
     public function buildOptions()
     {
-        $this->setOption(self::TO_USER_FIELD_NAME, $this->getToUser());
-        $this->setOption(self::MESSAGE_TYPE_FIELD_NAME, $this->getMessageType());
+        $this->setOption(Constants::CS_TO_USER_FIELD, $this->getToUser());
+        $this->setOption(Constants::CS_MESSAGE_TYPE_FIELD, $this->getMessageType());
         $this->setDetailOptions();
     }
     
     public function checkFieldName($field)
     {
         if (!in_array($field, $this->fieldNames)) {
-            throw new Exception('Error:' . __METHOD__);
+            throw new \Exception('Error:' . __METHOD__);
         }
     }
     
@@ -107,7 +105,7 @@ abstract class AbstractCSMessage extends RawBodyRequest implements AbstractCSMes
      */
     public function init($message)
     {
-        $this->setToUser(isset($message[self::TO_USER_FIELD_NAME]) ? $message[self::TO_USER_FIELD_NAME] : '');
+        $this->setToUser(isset($message[Constants::CS_TO_USER_FIELD]) ? $message[Constants::CS_TO_USER_FIELD] : '');
     }
     
     public function toString()

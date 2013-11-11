@@ -115,6 +115,42 @@ class Constants
     const ARTICLE_URL_FIELD = self::URL_FIELD;
     
     /**
+     * 客服消息类型
+     */
+    const CS_TEXT_MESSAGE_TYPE_NAME = self::TEXT_MESSAGE_TYPE_NAME;
+    const CS_IMAGE_MESSAGE_TYPE_NAME = self::IMAGE_MESSAGE_TYPE_NAME;
+    const CS_VOICE_MESSAGGE_TYPE_NAME = self::VOICE_MESSAGGE_TYPE_NAME;
+    const CS_VIDEO_MESSAGGE_TYPE_NAME = self::VIDEO_MESSAGGE_TYPE_NAME;
+    const CS_MUSIC_MESSAGGE_TYPE_NAME = self::MUSIC_MESSAGGE_TYPE_NAME;
+    const CS_NEWS_MESSAGGE_TYPE_NAME = self::NEWS_MESSAGGE_TYPE_NAME;
+    static $csMessageTypeNames = array(
+            self::CS_TEXT_MESSAGE_TYPE_NAME,
+            self::CS_IMAGE_MESSAGE_TYPE_NAME,
+            self::CS_VOICE_MESSAGGE_TYPE_NAME,
+            self::CS_VIDEO_MESSAGGE_TYPE_NAME,
+            self::CS_MUSIC_MESSAGGE_TYPE_NAME,
+            self::CS_NEWS_MESSAGGE_TYPE_NAME,
+    );
+    
+    /**
+     * 客服消息字段名称
+     */
+    const CS_TO_USER_FIELD = 'touser';
+    const CS_MESSAGE_TYPE_FIELD = 'msgtype';
+    const CS_TEXT_FIELD = 'text';
+    const CS_CONTENT_FIELD = 'content';
+    const CS_MEDIA_ID_FIELD = 'media_id';
+    const CS_THUMB_MEDIA_ID  = 'thumb_media_id';
+    const CS_TITLE_FIELD = 'title';
+    const CS_DESCRIPTION_FIELD = 'description';
+    const CS_MUSIC_URL_FIELD = 'musicurl';
+    const CS_HQ_MUSIC_URL_FIELD = 'hqmusicurl';
+    const CS_ARTICLES_FIELD = 'articles';
+    const CS_PIC_URL_FIELD = 'picurl';
+    
+    
+    
+    /**
      * 扫描带参数二维码事件，用户未关注时，进行关注后的事件推送, 此时的EventKey的值
      * 的前缀为qrscene_，后面为二维码的参数值
      */
@@ -123,6 +159,11 @@ class Constants
     static function isMessageTypeName($name)
     {
         return in_array($name, self::$messageTypeNames) ? true : false;
+    }
+    
+    static function isCSMessageTypeName($name)
+    {
+        return in_array($name, self::$csMessageTypeNames) ? true : false;
     }
     
     static function isEventTypeName($name)

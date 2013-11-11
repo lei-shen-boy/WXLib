@@ -5,22 +5,21 @@ use WXLib\Constants;
 use WXLib\Tool\DecoratorCreater;
 use WXLib\Message\Message;
 
-$message = '<xml>
- <ToUserName><![CDATA[toUser]]></ToUserName>
- <FromUserName><![CDATA[fromUser]]></FromUserName>
- <CreateTime>1348831860</CreateTime>
- <MsgType><![CDATA[text]]></MsgType>
- <Content><![CDATA[this is a test]]></Content>
- <MsgId>1234567890123456</MsgId>
- </xml>';
-
-$m = new Message($message);
-var_dump($m->getToUser());
-var_dump($m->getMessageType());
-var_dump($m);
-
+/**
+ * 生成csMessage.php
+ */
+$classes = array();
+foreach (Constants::$csMessageTypeNames as $type) {
+    array_push($classes, 'WXLib\\Message\\CustomerService\\' . ucfirst(strtolower($type)) . 'CSMessage');
+}
+$d = new DecoratorCreater();
+$d->addClasses($classes);
+var_dump($d->create());
 exit;
 
+/**
+ * 生成Message.php
+ */
 $classes = array();
 foreach (Constants::$messageTypeNames as $type) {
     if ($type == Constants::EVENT_MESSAGGE_TYPE_NAME) {
