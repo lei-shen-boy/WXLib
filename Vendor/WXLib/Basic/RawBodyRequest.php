@@ -36,11 +36,13 @@ class RawBodyRequest extends AbstractRequest
         return $this->rawBody;
     }
     
-    public function __construct($accessToken= null)
+    public function __construct($apiOptions = null)
     {
-        parent::__construct();
-        if ($accessToken == null) {
+        parent::__construct($apiOptions);
+        if (!isset($apiOptions['accessToken'])) {
             $accessToken = (new AccessToken())->get();
+        } else {
+            $accessToken = $apiOptions['accessToken'];
         }
         $this->setAccessToken($accessToken);
         $this->getRequest()->getUrl()->setQueryVariable('access_token', $this->getAccessToken());

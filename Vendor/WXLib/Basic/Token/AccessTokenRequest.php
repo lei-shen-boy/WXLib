@@ -29,8 +29,8 @@ class AccessTokenRequest extends AbstractRequest
             'url' => 'https://api.weixin.qq.com/cgi-bin/token',
             'params' => array(
                 'grant_type' => 'client_credential',
-                'appid'    => '',
-                'secret'    => '',
+                'appid'    => 'aaa',
+                'secret'    => 'aaa',
             )
         );
         parent::__construct();

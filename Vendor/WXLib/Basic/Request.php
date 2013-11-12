@@ -23,11 +23,13 @@ class Request extends AbstractRequest
         return $this->accessToken;
     }
     
-    public function __construct($accessToken= null)
+    public function __construct($apiOptions = null)
     {
-        parent::__construct();
-        if ($accessToken == null) {
+        parent::__construct($apiOptions);
+        if (!isset($apiOptions['accessToken'])) {
             $accessToken = (new AccessToken())->get();
+        } else {
+            $accessToken = $apiOptions['accessToken'];
         }
         $this->setAccessToken($accessToken);
         if ($this->apiOptions['method'] == \HTTP_Request2::METHOD_GET) {

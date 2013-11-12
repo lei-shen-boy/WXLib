@@ -13,9 +13,38 @@ abstract class AbstractRequest implements RequestInterface
     
     protected $request;
     
-    public function __construct()
+    public function __construct($apiOptions = null)
     {
+        if (is_array($apiOptions)) {
+            if (isset($apiOptions['method'])) {
+                $this->setApiMethod($apiOptions['method']);
+            }
+            if (isset($apiOptions['url'])) {
+                $this->setApiUrl($apiOptions['url']);
+            }
+            if (isset($apiOptions['params'])) {
+                $this->setApiParams($apiOptions['params']);
+            }
+        }
         $this->setRequest();
+    }
+    
+    public function setApiUrl($url)
+    {
+        $this->apiOptions['url'] = $url; 
+    }
+    
+    public function setApiMethod($method)
+    {
+        $this->apiOptions['method'] = $method;
+    }
+    
+    public function setApiParams($params)
+    {
+        if (!is_array($params)) {
+            throw new \Exception('params must be array');
+        }
+        $this->apiOptions['params'] = $params;
     }
     
     public function getRequest()
