@@ -148,6 +148,22 @@ class Constants
     const CS_ARTICLES_FIELD = 'articles';
     const CS_PIC_URL_FIELD = 'picurl';
     
+    /**
+     * 菜单按钮类型
+     */
+    const MENU_CLICK_BUTTON_TYPE_NAME = 'click';
+    const MENU_VIEW_BUTTON_TYPE_NAME = 'view';
+    
+    /**
+     * 菜单请求字段名称
+     */
+    const MENU_BUTTON_FIELD = 'button';
+    const MENU_SUB_BUTTON_FIELD = 'sub_button';
+    const MENU_BUTTON_TYPE_FIELD = 'type';
+    const MENU_BUTTON_NAME_FIELD = 'name';
+    const MENU_BUTTON_KEY_FIELD = 'key';
+    const MENU_BUTTON_URL_FIELD = 'url';
+    
     
     
     /**

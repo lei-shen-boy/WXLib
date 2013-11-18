@@ -7,6 +7,21 @@ require_once 'Vendor/autoload.php';
 use WXLib\Message\Message;
 use WXLib\Message\Article;
 
+// 回复图文消息
+$a = new Article();
+$a->setTitle('title1')
+->setDescription('description1')
+->setPicUrl('picurl')
+->setUrl('url');
+$m = new Message();
+$m->setToUser('touser1')
+->setFromUser('fromusr1')
+->setCreateTime(time())
+->setToNews()
+->addArticle($a);
+echo $m;
+
+
 // 接收关注事件消息
 $xml = '<xml>
 <ToUserName><![CDATA[toUser]]></ToUserName>

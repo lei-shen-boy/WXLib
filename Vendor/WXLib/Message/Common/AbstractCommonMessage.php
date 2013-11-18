@@ -35,5 +35,9 @@ class AbstractCommonMessage extends AbstractMessage
                 '%s' . ($this->getMessageId() ? "<MsgId>{$this->getMessageId()}</MsgId>" : '')
         ); 
     }
+    
+    public function __toString(){
+        return $this->toString();
+    }
 }
 ?>

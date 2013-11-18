@@ -883,6 +883,11 @@ class Message extends Constants
         return $this;
     }
     
+    public function __toString()
+    {
+        return $this->toString();
+    }
+    
    
 }
 ?>

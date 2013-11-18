@@ -114,6 +114,10 @@ abstract class AbstractCSMessage extends RawBodyRequest implements AbstractCSMes
         return $this->encode($this->getOptions());
     }
     
+    public function __toString(){
+        return $this->toString();
+    }
+    
     public function encode($data)
     {
         if (!is_array($data)) {
