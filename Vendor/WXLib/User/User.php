@@ -195,5 +195,70 @@ array(4) {
         return $request->send();
     }
     
+    public function goAuthAction()
+    {
+        $REDIRECT_URI = urlencode('');
+        $SCOPE = 'snsapi_base';
+        $SCOPE = 'snsapi_userinfo';
+        $STATE = '';
+        $appid = '';
+        $wxUrl = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=$appid&redirect_uri=$REDIRECT_URI&response_type=code&scope=$SCOPE&state=$STATE#wechat_redirect";
+        header("Location: $wxUrl");
+        exit;
+    }
+    
+    public function receAuthAction()
+    {
+        $code = $this->request->getGetParameter('code');
+        $res = $this->requestOpenId($code);
+        var_dump($res);
+        $res = $this->reqUserInfo($res['access_token'], $res['openid']);
+        var_dump($res);
+    }
+    
+    /**
+     * 获取openid和access_token
+     * @param unknown $code
+     * @return Ambigous <mixed, boolean, array>
+     */
+    protected function requestOpenId($code)
+    {
+        $appid = '';
+        $secret = '';
+        $grant_type = 'authorization_code';
+        $url = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=$appid&secret=$secret&code=$code&grant_type=$grant_type";
+    
+        $curl->setOptions(array(
+                CURLOPT_TIMEOUT => 3
+        ));
+        $curl->setExtranetHttpProxy();
+        $jsonCallback = $curl->sendByGet('', $url);
+         
+        $json_obj = new JSON();
+        return $json_obj->unserialize($jsonCallback);
+    }
+    
+    protected function reqUserInfo($accessToken, $openId)
+    {
+        $url = "https://api.weixin.qq.com/sns/userinfo?access_token=$accessToken&openid=$openId";
+        $curl = new TMCurl();
+        $curl->setOptions(array(
+                CURLOPT_TIMEOUT => 3
+        ));
+        $curl->setExtranetHttpProxy();
+        $jsonCallback = $curl->sendByGet('', $url);
+         
+        $json_obj = new JSON();
+        return $json_obj->unserialize($jsonCallback);
+    }
+    
+    protected function refreshAccessToken($refreshToken)
+    {
+        $url = 'https://api.weixin.qq.com/sns/oauth2/refresh_token?appid=APPID&grant_type=refresh_token&refresh_token=REFRESH_TOKEN';
+        $res = '';
+    
+        return $res;
+    }
+    
 }
 ?>
