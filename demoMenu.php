@@ -4,42 +4,37 @@
  */
 require_once 'Vendor/autoload.php';
 
+
 use WXLib\Menu\Menu;
 use WXLib\Menu\Button;
 use WXLib\Constants;
 
 try {
-	
-
+    
 $menu = new Menu();
+var_dump(Menu::delete());
+exit;
 $menu->addButton(array(
         'type' => 'click',
-        'name' => '今日歌曲',
+        'name' => 'name',
         'key' => 'V1001_TODAY_MUSIC'
 ));
 
-$b1 = new Button();
-$b1->setName('name1');
-$b1->setKey('key1');
-$b1->setType(Constants::MENU_CLICK_BUTTON_TYPE_NAME);
-$menu->addButton($b1);
-
 $b2 = new Button();
-$b2->setName('name2');
-$b2->setUrl('url2');
-$b2->setType(Constants::MENU_VIEW_BUTTON_TYPE_NAME);
+$b2->setName('name2')->setUrl('url2')->setType(Constants::MENU_VIEW_BUTTON_TYPE_NAME);
 $menu->addButton($b2);
 
 $button3Id = $menu->addButtonName('button3');
 $b3_1 = new Button();
-$b3_1->setName('name3_1');
-$b3_1->setUrl('url3_1');
-$b3_1->setType(Constants::MENU_VIEW_BUTTON_TYPE_NAME);
+$b3_1->setName('name3_1')->setUrl('url3_1')->setType(Constants::MENU_VIEW_BUTTON_TYPE_NAME);
 $menu->addSubButton($button3Id, $b3_1);
+$b3_2 = new Button();
+$b3_2->setName('name3_2')->setKey('key3_2')->setType(Constants::MENU_CLICK_BUTTON_TYPE_NAME);
+$menu->addSubButton($button3Id, $b3_2);
+
+var_dump($menu->create());
 
 
-
-var_dump($menu->toArray());
 } catch (Exception $e) {
     var_dump($e);
 }
